@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#243B55",
+        "flex": 1,
+      },
+      {
+        "paddingHorizontal": 0,
+      },
+    ]
+  }
+>
+  <View>
+    <Text>
+      Test Text
+    </Text>
+  </View>
+</View>
+`;

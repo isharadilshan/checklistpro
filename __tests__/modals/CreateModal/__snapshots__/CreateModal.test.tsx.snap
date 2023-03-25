@@ -1,0 +1,194 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<ModalWrapper
+  closeModal={[MockFunction]}
+  modalVisible={true}
+>
+  <View
+    style={
+      {
+        "padding": 16,
+      }
+    }
+  >
+    <Component
+      control={
+        {
+          "_defaultValues": {},
+          "_executeSchema": [Function],
+          "_fields": {},
+          "_formState": {
+            "dirtyFields": {},
+            "errors": {},
+            "isDirty": false,
+            "isSubmitSuccessful": false,
+            "isSubmitted": false,
+            "isSubmitting": false,
+            "isValid": false,
+            "isValidating": false,
+            "submitCount": 0,
+            "touchedFields": {},
+          },
+          "_formValues": {},
+          "_getDirty": [Function],
+          "_getFieldArray": [Function],
+          "_getWatch": [Function],
+          "_names": {
+            "array": Set {},
+            "mount": Set {},
+            "unMount": Set {},
+            "watch": Set {},
+          },
+          "_options": {
+            "mode": "onSubmit",
+            "reValidateMode": "onChange",
+            "shouldFocusError": true,
+          },
+          "_proxyFormState": {
+            "dirtyFields": false,
+            "errors": false,
+            "isDirty": false,
+            "isValid": false,
+            "isValidating": false,
+            "touchedFields": false,
+          },
+          "_removeUnmounted": [Function],
+          "_stateFlags": {
+            "action": false,
+            "mount": false,
+            "watch": false,
+          },
+          "_subjects": {
+            "array": {
+              "next": [Function],
+              "observers": [],
+              "subscribe": [Function],
+              "unsubscribe": [Function],
+            },
+            "state": {
+              "next": [Function],
+              "observers": [],
+              "subscribe": [Function],
+              "unsubscribe": [Function],
+            },
+            "watch": {
+              "next": [Function],
+              "observers": [],
+              "subscribe": [Function],
+              "unsubscribe": [Function],
+            },
+          },
+          "_updateFieldArray": [Function],
+          "_updateValid": [Function],
+          "getFieldState": [Function],
+          "register": [Function],
+          "unregister": [Function],
+        }
+      }
+      defaultValue=""
+      name="title"
+      render={[Function]}
+      rules={
+        {
+          "required": true,
+        }
+      }
+    />
+    <Component
+      control={
+        {
+          "_defaultValues": {},
+          "_executeSchema": [Function],
+          "_fields": {},
+          "_formState": {
+            "dirtyFields": {},
+            "errors": {},
+            "isDirty": false,
+            "isSubmitSuccessful": false,
+            "isSubmitted": false,
+            "isSubmitting": false,
+            "isValid": false,
+            "isValidating": false,
+            "submitCount": 0,
+            "touchedFields": {},
+          },
+          "_formValues": {},
+          "_getDirty": [Function],
+          "_getFieldArray": [Function],
+          "_getWatch": [Function],
+          "_names": {
+            "array": Set {},
+            "mount": Set {},
+            "unMount": Set {},
+            "watch": Set {},
+          },
+          "_options": {
+            "mode": "onSubmit",
+            "reValidateMode": "onChange",
+            "shouldFocusError": true,
+          },
+          "_proxyFormState": {
+            "dirtyFields": false,
+            "errors": false,
+            "isDirty": false,
+            "isValid": false,
+            "isValidating": false,
+            "touchedFields": false,
+          },
+          "_removeUnmounted": [Function],
+          "_stateFlags": {
+            "action": false,
+            "mount": false,
+            "watch": false,
+          },
+          "_subjects": {
+            "array": {
+              "next": [Function],
+              "observers": [],
+              "subscribe": [Function],
+              "unsubscribe": [Function],
+            },
+            "state": {
+              "next": [Function],
+              "observers": [],
+              "subscribe": [Function],
+              "unsubscribe": [Function],
+            },
+            "watch": {
+              "next": [Function],
+              "observers": [],
+              "subscribe": [Function],
+              "unsubscribe": [Function],
+            },
+          },
+          "_updateFieldArray": [Function],
+          "_updateValid": [Function],
+          "getFieldState": [Function],
+          "register": [Function],
+          "unregister": [Function],
+        }
+      }
+      defaultValue=""
+      name="description"
+      render={[Function]}
+      rules={
+        {
+          "required": true,
+        }
+      }
+    />
+    <Button
+      label="Create"
+      mode="contained"
+      onPress={[Function]}
+      style={
+        {
+          "marginHorizontal": 40,
+          "marginTop": 45,
+        }
+      }
+    />
+  </View>
+</ModalWrapper>
+`;

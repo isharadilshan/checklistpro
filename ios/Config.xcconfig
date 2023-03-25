@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  checklist
+//
+//  Created by Ishara Dilshan on 2022-08-30.
+//
+
+#include? "tmp.xcconfig"
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974

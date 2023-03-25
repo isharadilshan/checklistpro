@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<withTheme(Surface)
+  style={
+    {
+      "backgroundColor": "#BBC8D6",
+      "borderRadius": 4,
+      "elevation": 4,
+      "flexDirection": "row",
+      "marginHorizontal": 16,
+      "marginVertical": 8,
+      "padding": 8,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <Title>
+      TEST TITLE
+    </Title>
+    <Subheading>
+      TEST DESCRIPTION
+    </Subheading>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "paddingLeft": 10,
+      }
+    }
+  >
+    <withTheme(IconButton)
+      icon="square-edit-outline"
+      onPress={[Function]}
+      size={25}
+    />
+    <withTheme(IconButton)
+      icon="trash-can"
+      onPress={[Function]}
+      size={25}
+    />
+  </View>
+</withTheme(Surface)>
+`;

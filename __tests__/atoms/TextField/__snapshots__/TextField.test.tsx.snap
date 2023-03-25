@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<Fragment>
+  <Title
+    style={
+      {
+        "fontSize": 16,
+        "lineHeight": 18,
+        "marginTop": 16,
+        "width": 120,
+      }
+    }
+  >
+    TEST TEXT FIELD *
+  </Title>
+  <withTheme(undefined)
+    autoCompleteType="off"
+    autoCorrect={false}
+    mode="outlined"
+    placeholderTextColor="black"
+    render={[Function]}
+    style={
+      [
+        {
+          "height": 50,
+        },
+      ]
+    }
+  />
+</Fragment>
+`;

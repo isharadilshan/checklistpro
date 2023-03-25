@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "354823086142",
+    "project_id": "checklist-swivel",
+    "storage_bucket": "checklist-swivel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354823086142:android:dff501ce4c011a7b42b16f",
+        "android_client_info": {
+          "package_name": "com.alphabit.checklist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354823086142-f16a2rfbi265fubstc3tpnh8f16av608.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEiLHisfF7MdII6gTNDEvSQnlV8gw8VDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354823086142-f16a2rfbi265fubstc3tpnh8f16av608.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

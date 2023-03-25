@@ -1,0 +1,56 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+deployment_target = Gem::Version.new('12.4')
+platform :ios, deployment_target
+install! 'cocoapods', :deterministic_uuids => false
+
+target 'checklist' do
+  config = use_native_modules!
+
+  # Flags change depending on the env values.
+  flags = get_default_flags()
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # to enable hermes on iOS, change `false` to `true` and then install pods
+    :hermes_enabled => flags[:hermes_enabled],
+    :fabric_enabled => flags[:fabric_enabled],
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
+
+  target 'checklistTests' do
+    inherit! :complete
+    # Pods for testing
+  end
+
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable the next line.
+  use_flipper!()
+
+  post_install do |installer|
+    react_native_post_install(installer)
+    # Uncomment if using a M1 Mac with XCode 12.5
+    # __apply_Xcode_12_5_M1_post_install_workaround(installer)
+  
+    installer.pods_project.targets.each do |target|
+      case target.name
+      # Ignore RCT-Folly because it only works with 9.0 as a deployment target
+      when 'RCT-Folly'
+        next
+      else
+        # Explicitly set pods deployment target for each build config to app deployment target
+        target.build_configurations.each do |config|
+          current_pod_target = config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+          pod_ios_deployment_target = Gem::Version.new(current_pod_target)
+          if pod_ios_deployment_target <= deployment_target
+            config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+          end
+        end
+      end
+    end
+  end
+end

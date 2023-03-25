@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<ModalWrapper
+  closeModal={[MockFunction]}
+  modalVisible={true}
+>
+  <View
+    style={
+      {
+        "padding": 16,
+      }
+    }
+  >
+    <Title
+      style={
+        {
+          "color": "#e76372",
+          "fontSize": 24,
+          "padding": 20,
+          "textAlign": "center",
+        }
+      }
+    >
+      Are you sure to delete this??
+    </Title>
+    <Button
+      label="Confirm"
+      mode="contained"
+      style={
+        {
+          "marginHorizontal": 40,
+          "marginTop": 45,
+        }
+      }
+    />
+  </View>
+</ModalWrapper>
+`;
