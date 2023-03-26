@@ -52,7 +52,7 @@ const AuthenticatedStack: React.FC = () => {
           <Icon
             name="arrow-left"
             size={30}
-            color="gray"
+            color="#94a3b8"
             style={{marginHorizontal: 10}}
             {...props}
           />

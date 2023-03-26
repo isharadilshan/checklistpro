@@ -1,49 +1,79 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {FlatList} from 'react-native';
-import {View, Text, HStack, Select} from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
+import {Button, View, Text, HStack, Select} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
+import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
 import ExpenseListItem from '../../components/molecules/ExpenseListItem';
 import {fetchExpenseList} from '../../redux/actions/expense';
 import ExprenseSkeleton from '../../components/organisms/ExpenseSkeleton';
 import {EXPENSE_CATEGORIES, MONTHS} from '../../utils/constants';
+import {getDateName} from '../../utils/helper/Date';
+import {isEmpty} from '../../utils/helper/Validator';
+import {Expense} from '../../shared/models';
+import createStyle from './styles';
 
 const SummaryScreen: React.FC = () => {
   const [category, setCategory] = useState<string>('');
   const [month, setMonth] = useState<string>('');
+  const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
   const expenseList = useSelector<any, []>(({expense}) => expense.expenseList);
   const isFetchingExpenses = useSelector<any, boolean>(
     ({expense}) => expense.isFetchingExpenses,
   );
   const dispatch = useDispatch();
+  const styles = createStyle();
 
   const refreshList = () => {
     //@ts-ignore
     dispatch(fetchExpenseList());
   };
 
-  const filterExpensesByMonth = useCallback(() => {}, [
-    expenseList,
-    category,
-    month,
-  ]);
+  const onPressClear = () => {
+    setCategory('');
+    setMonth('');
+  };
+
+  const filterExpenses = useCallback(() => {
+    if (!isEmpty(month) && !isEmpty(category)) {
+      const filteredArray = expenseList.filter((expense: Expense) => {
+        return (
+          getDateName(expense.createdDate).split('-')[1] === month &&
+          expense.category === category
+        );
+      });
+      setFilteredExpenses(filteredArray);
+    } else if (!isEmpty(month)) {
+      const filteredArray = expenseList.filter((expense: Expense) => {
+        return getDateName(expense.createdDate).split('-')[1] === month;
+      });
+      setFilteredExpenses(filteredArray);
+    } else if (!isEmpty(category)) {
+      const filteredArray = expenseList.filter((expense: Expense) => {
+        return expense.category === category;
+      });
+      setFilteredExpenses(filteredArray);
+    } else {
+      setFilteredExpenses(expenseList);
+    }
+  }, [expenseList, month, category]);
+
+  useEffect(() => {
+    filterExpenses();
+  }, [filterExpenses]);
 
   return (
     <ScreenWrapper noPaddings={false}>
-      <HStack justifyContent={'space-between'} mb={4}>
+      <HStack justifyContent={'space-between'} mb={4} mt={4}>
         <Select
-          minWidth="150"
+          minWidth="130"
           size={'xl'}
           selectedValue={category}
           accessibilityLabel="Category"
           placeholder="Category"
           _selectedItem={{
-            bg: 'teal.600',
+            bg: 'tertiary.500',
           }}
-          _text={{
-            color: '#fff',
-          }}
+          color={'coolGray.200'}
           onValueChange={(value) => setCategory(value)}
         >
           {EXPENSE_CATEGORIES.map((month) => {
@@ -57,15 +87,15 @@ const SummaryScreen: React.FC = () => {
           })}
         </Select>
         <Select
-          minWidth="150"
+          minWidth="130"
           size={'xl'}
           selectedValue={month}
           accessibilityLabel="Month"
           placeholder="Month"
           _selectedItem={{
             bg: 'teal.600',
-            color: '#fff',
           }}
+          color={'coolGray.200'}
           onValueChange={(value) => setMonth(value)}
         >
           {MONTHS.map((month) => {
@@ -78,10 +108,13 @@ const SummaryScreen: React.FC = () => {
             );
           })}
         </Select>
+        <Button onPress={onPressClear} colorScheme="warning">
+          Clear
+        </Button>
       </HStack>
       <FlatList
-        data={expenseList}
-        renderItem={({item}: any) => {
+        data={filteredExpenses}
+        renderItem={({item}: {item: Expense}) => {
           return (
             <ExpenseListItem
               id={item?._id}
@@ -91,8 +124,8 @@ const SummaryScreen: React.FC = () => {
               category={item?.category}
               createdDate={item?.createdDate}
               hideButtons={true}
-              onPressDelete={(id) => {}}
-              onPressEdit={(id) => {}}
+              onPressDelete={() => {}}
+              onPressEdit={() => {}}
             />
           );
         }}
@@ -105,14 +138,8 @@ const SummaryScreen: React.FC = () => {
             return <ExprenseSkeleton />;
           }
           return (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Text>{'No Expenses Data Available'}</Text>
+            <View style={styles.emptyText}>
+              <Text color={'coolGray.200'}>{'No Expense Data Available'}</Text>
             </View>
           );
         }}

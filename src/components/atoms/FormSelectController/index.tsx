@@ -8,7 +8,6 @@ import {
   RegisterOptions,
 } from 'react-hook-form';
 import ModalSelector from 'react-native-modal-selector';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 type SelectItem = {
   key: string;
@@ -60,7 +59,7 @@ const FormSelectController = <FieldsType,>({
             accessible={true}
             scrollViewAccessibilityLabel={'Scrollable options'}
             cancelButtonAccessibilityLabel={'Cancel Button'}
-            onChange={(option) => onChange(option.label)}
+            onChange={(option) => onChange(option.value)}
           />
         )}
       />

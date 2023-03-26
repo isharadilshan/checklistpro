@@ -55,7 +55,7 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
       const data = {
         title: title,
         description: description,
-        amount: 100,
+        amount: parseFloat(amount),
         category: category,
         createdDate: Date.now(),
         updatedDate: Date.now(),
@@ -146,8 +146,8 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
             }}
             items={[
               {key: '1', label: 'Food', value: 'FOOD'},
-              {key: '2', label: 'Transport', value: 'TRANSPORT'},
-              {key: '3', label: 'Drinks', value: 'DRINKS'},
+              {key: '2', label: 'Medical', value: 'MEDICAL'},
+              {key: '3', label: 'Transport', value: 'TRANSPORT'},
             ]}
           />
         </Modal.Body>

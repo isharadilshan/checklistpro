@@ -130,7 +130,6 @@ const ExpenseScreen: React.FC = () => {
               amount={item?.amount}
               category={item?.category}
               createdDate={item?.createdDate}
-              updatedDate={item?.updatedDate}
               onPressDelete={(id) => onPressDelete(id)}
               onPressEdit={(id) => onPressEdit(id)}
             />

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Text, View, TouchableOpacity} from 'react-native';
+import {Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {
   Agenda,
@@ -8,58 +8,49 @@ import {
   AgendaSchedule,
 } from 'react-native-calendars';
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
-import createStyle from './style';
-
-interface State {
-  items?: AgendaSchedule;
-}
+import createStyle from './styles';
+import {ToDo} from '../../shared/models';
+import TodoAgendaItem from '../../components/molecules/TodoAgendaItem';
 
 const CalendarScreen: React.FC = () => {
   const styles = createStyle();
-  const [items, setItems] = useState<State>({items: undefined});
-  const expenseList = useSelector<any, []>(({expense}) => expense.expenseList);
+  const [todoAgendaItems, setTodoAgendaItems] = useState<AgendaSchedule>({});
+  const todoList = useSelector<any, []>(({todo}) => todo.todoList);
 
   const loadItems = (day: DateData) => {
-    const tempItems = items.items || {};
-
-    expenseList.forEach((expense) => {
-      const strTime = timeToString(expense.createdDate);
-      if (!tempItems[strTime]) {
-        tempItems[strTime] = [];
-
-        tempItems[strTime].push({
-          name: expense.title,
-          height: Math.max(50, Math.floor(Math.random() * 150)),
-          day: strTime,
-        });
+    const agenda = todoList.reduce((groups: any, todo: ToDo) => {
+      const date = timeToString(todo.createdDate);
+      if (!groups[date]) {
+        groups[date] = [];
       }
-    });
-
-    const newItems: AgendaSchedule = {};
-    Object.keys(tempItems).forEach((key) => {
-      newItems[key] = tempItems[key];
-    });
-    setItems({items: newItems});
+      groups[date].push({
+        name: `${todo.title}@${todo.description}@${todo.category}`,
+        height: 120,
+        day: date,
+      });
+      return groups;
+    }, {});
+    setTodoAgendaItems(agenda);
   };
 
   const renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
-    const fontSize = isFirst ? 16 : 14;
-    const color = isFirst ? 'black' : '#43515c';
-
     return (
-      <TouchableOpacity
-        style={[styles.item, {height: reservation.height}]}
-        onPress={() => Alert.alert(reservation.name)}
-      >
-        <Text style={{fontSize, color}}>{reservation.name}</Text>
-      </TouchableOpacity>
+      <TodoAgendaItem data={reservation.name} height={reservation.height} />
     );
   };
 
   const renderEmptyDate = () => {
     return (
       <View style={styles.emptyDate}>
-        <Text>This is empty date!</Text>
+        <Text style={styles.emptyDataText}>No todo data for the date!</Text>
+      </View>
+    );
+  };
+
+  const renderEmptyData = () => {
+    return (
+      <View style={styles.emptyDataWrapper}>
+        <Text style={styles.emptyDataText}>No data found!</Text>
       </View>
     );
   };
@@ -76,18 +67,19 @@ const CalendarScreen: React.FC = () => {
   return (
     <ScreenWrapper noPaddings>
       <Agenda
-        items={items.items}
+        items={todoAgendaItems}
         loadItemsForMonth={loadItems}
-        // selected={'2023-03-16'}
         renderItem={renderItem}
-        renderEmptyDate={renderEmptyDate}
         rowHasChanged={rowHasChanged}
         showClosingKnob={true}
-        theme={{calendarBackground: '#141E30', agendaKnobColor: 'green'}}
-        style={{backgroundColor: '#141E30'}}
-        // hideExtraDays={false}
-        // showOnlySelectedDayItems
-        // reservationsKeyExtractor={this.reservationsKeyExtractor}
+        renderEmptyData={renderEmptyData}
+        renderEmptyDate={renderEmptyDate}
+        theme={{
+          calendarBackground: '#141E30',
+          agendaKnobColor: '#10b981',
+          //@ts-ignore
+          reservationsBackgroundColor: '#1f2937',
+        }}
       />
     </ScreenWrapper>
   );

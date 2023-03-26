@@ -1,6 +1,8 @@
 import React from 'react';
 import {Box, Badge, HStack, View, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import createStyle from './styles';
+import {getDateName} from '../../../utils/helper/Date';
 
 type ExpenseListItemProps = {
   id: string;
@@ -25,46 +27,33 @@ const ExpenseListItem: React.FC<ExpenseListItemProps> = ({
   onPressEdit,
   onPressDelete,
 }) => {
+  const styles = createStyle();
+
   return (
-    <Box
-      height={150}
-      rounded="sm"
-      overflow="hidden"
-      borderColor="coolGray.200"
-      borderWidth="1"
-      _dark={{
-        borderColor: 'coolGray.600',
-        backgroundColor: '#1f2937',
-      }}
-      _light={{
-        backgroundColor: '#1f2937',
-      }}
-      p={2}
-      my={2}
-    >
+    <Box style={styles.cardWrapper} p={2} my={2}>
       <HStack height={'100%'}>
-        <Box w={'75%'}>
-          <View style={{flex: 1, justifyContent: 'space-between'}}>
+        <Box w={'50%'}>
+          <View style={styles.textWrapper}>
             <View>
               <Text color={'blueGray.400'} fontSize="xl">
                 {title}
               </Text>
               <Text color={'blueGray.400'}>{description}</Text>
+              <Text color={'blueGray.400'}>{getDateName(createdDate)}</Text>
             </View>
             <Badge width={150} variant={'outline'} colorScheme="success">
               {category}
             </Badge>
           </View>
         </Box>
+        <Box w={'25%'}>
+          <Text color={'blueGray.400'} fontSize="2xl">
+            {amount}
+          </Text>
+        </Box>
         {!hideButtons && (
           <Box w={'25%'}>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'flex-end',
-                justifyContent: 'space-between',
-              }}
-            >
+            <View style={styles.buttonWrapper}>
               <Icon
                 name="square-edit-outline"
                 size={30}

@@ -14,7 +14,7 @@ import GlobalExceptionHandler from './components/organisms/GlobalExceptionHandle
 
 const App: () => ReactNode = () => {
   useEffect(() => {
-    //add timeout here to if demonstrate neeeded in splash screen
+    //added timeout to demonstrate splash screen can remove in production
     const timer = setTimeout(() => SplashScreen.hide(), 3000);
     return () => clearTimeout(timer);
   }, []);

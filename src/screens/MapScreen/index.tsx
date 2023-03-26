@@ -1,201 +1,132 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-// import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
+import React, {Component} from 'react';
+import {Alert, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {
+  Agenda,
+  DateData,
+  AgendaEntry,
+  AgendaSchedule,
+} from 'react-native-calendars';
 
-const MapScreen: React.FC = () => {
-  const customStyle = [
-    {
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#242f3e',
-        },
-      ],
-    },
-    {
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#ffb606',
-        },
-      ],
-    },
-    {
-      elementType: 'labels.text.stroke',
-      stylers: [
-        {
-          color: '#242f3e',
-        },
-      ],
-    },
-    {
-      featureType: 'administrative.locality',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#ffb606',
-        },
-      ],
-    },
-    {
-      featureType: 'poi',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#d59563',
-        },
-      ],
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#263c3f',
-        },
-      ],
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#00ff00',
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#38414e',
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry.stroke',
-      stylers: [
-        {
-          color: '#212a37',
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#9ca5b3',
-        },
-      ],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#746855',
-        },
-      ],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'geometry.stroke',
-      stylers: [
-        {
-          color: '#1f2835',
-        },
-      ],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#f3d19c',
-        },
-      ],
-    },
-    {
-      featureType: 'transit',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#2f3948',
-        },
-      ],
-    },
-    {
-      featureType: 'transit.station',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#d59563',
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#17263c',
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#515c6d',
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'labels.text.stroke',
-      stylers: [
-        {
-          color: '#17263c',
-        },
-      ],
-    },
-  ];
+interface State {
+  items?: AgendaSchedule;
+}
 
-  return (
-    <ScreenWrapper noPaddings>
-      <View style={styles.container}>
-        {/* <MapView
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          customMapStyle={customStyle}
-          region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
-        ></MapView> */}
+export default class MapScreen extends Component<State> {
+  state: State = {
+    items: undefined,
+  };
+
+  // reservationsKeyExtractor = (item, index) => {
+  //   return `${item?.reservation?.day}${index}`;
+  // };
+
+  render() {
+    return (
+      <Agenda
+        items={this.state.items}
+        loadItemsForMonth={this.loadItems}
+        selected={'2017-05-16'}
+        renderItem={this.renderItem}
+        renderEmptyDate={this.renderEmptyDate}
+        rowHasChanged={this.rowHasChanged}
+        showClosingKnob={true}
+        // markingType={'period'}
+        // markedDates={{
+        //    '2017-05-08': {textColor: '#43515c'},
+        //    '2017-05-09': {textColor: '#43515c'},
+        //    '2017-05-14': {startingDay: true, endingDay: true, color: 'blue'},
+        //    '2017-05-21': {startingDay: true, color: 'blue'},
+        //    '2017-05-22': {endingDay: true, color: 'gray'},
+        //    '2017-05-24': {startingDay: true, color: 'gray'},
+        //    '2017-05-25': {color: 'gray'},
+        //    '2017-05-26': {endingDay: true, color: 'gray'}}}
+        // monthFormat={'yyyy'}
+        // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
+        //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
+        // hideExtraDays={false}
+        // showOnlySelectedDayItems
+        // reservationsKeyExtractor={this.reservationsKeyExtractor}
+      />
+    );
+  }
+
+  loadItems = (day: DateData) => {
+    const items = this.state.items || {};
+
+    setTimeout(() => {
+      for (let i = -1; i < 5; i++) {
+        const time = day.timestamp + i * 24;
+        const strTime = this.timeToString(time);
+
+        if (!items[strTime]) {
+          items[strTime] = [];
+
+          const numItems = Math.floor(Math.random() * 3 + 1);
+          for (let j = 0; j < numItems; j++) {
+            items[strTime].push({
+              name: 'Item for ' + strTime + ' #' + j,
+              height: Math.max(50, Math.floor(Math.random() * 150)),
+              day: strTime,
+            });
+          }
+        }
+      }
+
+      const newItems: AgendaSchedule = {};
+      Object.keys(items).forEach((key) => {
+        newItems[key] = items[key];
+      });
+      this.setState({
+        items: newItems,
+      });
+    }, 1000);
+  };
+
+  renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
+    const fontSize = isFirst ? 16 : 14;
+    const color = isFirst ? 'black' : '#43515c';
+    console.log('ITENS -----------', this.state.items);
+
+    return (
+      <TouchableOpacity
+        style={[styles.item, {height: reservation.height}]}
+        onPress={() => Alert.alert(reservation.name)}
+      >
+        <Text style={{fontSize, color}}>{reservation.name}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  renderEmptyDate = () => {
+    return (
+      <View style={styles.emptyDate}>
+        <Text>This is empty date!</Text>
       </View>
-    </ScreenWrapper>
-  );
-};
+    );
+  };
+
+  rowHasChanged = (r1: AgendaEntry, r2: AgendaEntry) => {
+    return r1.name !== r2.name;
+  };
+
+  timeToString(time: number) {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
+  }
+}
 
 const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    height: '100%',
-    width: 400,
-    alignItems: 'center',
+  item: {
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17,
   },
-  map: {
-    ...StyleSheet.absoluteFillObject,
+  emptyDate: {
+    height: 15,
+    flex: 1,
+    paddingTop: 30,
   },
 });
-
-export default MapScreen;

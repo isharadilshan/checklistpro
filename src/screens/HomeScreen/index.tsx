@@ -84,17 +84,17 @@ const HomeScreen: React.FC = () => {
       <View style={styles.contentWrapper}>
         <Center style={styles.cardWrapper}>
           {firstRow.map(({id, title, onPress}: CardItem, index: number) => (
-            <ContentCard key={index} id={id} title={title} onPress={onPress} />
+            <ContentCard key={title} id={id} title={title} onPress={onPress} />
           ))}
         </Center>
         <Center style={styles.cardWrapper}>
           {secondRow.map(({id, title, onPress}: CardItem, index: number) => (
-            <ContentCard key={index} id={id} title={title} onPress={onPress} />
+            <ContentCard key={title} id={id} title={title} onPress={onPress} />
           ))}
         </Center>
         <Center style={styles.cardWrapper}>
           {thirdRow.map(({id, title, onPress}: CardItem, index: number) => (
-            <ContentCard key={index} id={id} title={title} onPress={onPress} />
+            <ContentCard key={title} id={id} title={title} onPress={onPress} />
           ))}
         </Center>
       </View>

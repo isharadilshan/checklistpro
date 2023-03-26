@@ -1,49 +1,68 @@
-import React from 'react';
-import {Text, Center} from 'native-base';
+import React, {useState, useCallback, useEffect} from 'react';
+import {View} from 'native-base';
+import {useSelector} from 'react-redux';
 import {BarChart} from 'react-native-chart-kit';
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
+import createStyle from './styles';
+import {Expense} from '../../shared/models';
+
+type AmountObjectProps = {
+  amount: number;
+  category: string;
+};
 
 const ChartScreen: React.FC = () => {
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43],
-      },
-    ],
-  };
+  const [chartLabels, setChartLabels] = useState<string[]>([]);
+  const [chartData, setChartData] = useState<number[]>([]);
+  const expenseList = useSelector<any, []>(({expense}) => expense.expenseList);
+  const styles = createStyle();
+
+  const procesExpenseData = useCallback(() => {
+    let result: AmountObjectProps[] = [];
+    expenseList.reduce((res: Object, value: Expense) => {
+      if (!res[value.category]) {
+        res[value.category] = {category: value.category, amount: 0};
+        result.push(res[value.category]);
+      }
+      res[value.category].amount += value.amount;
+      return res;
+    }, {});
+    setChartLabels(result.map((item) => item.category));
+    setChartData(result.map((item) => item.amount));
+  }, [expenseList]);
+
+  useEffect(() => {
+    procesExpenseData();
+  }, [procesExpenseData]);
+
   return (
     <ScreenWrapper noPaddings={false}>
-      <Center>
+      <View style={styles.chartWrapper}>
         <BarChart
-          style={{
-            marginVertical: 8,
-            borderRadius: 16,
+          data={{
+            labels: chartLabels,
+            datasets: [{data: chartData}],
           }}
-          data={data}
           width={300}
-          height={500}
-          yAxisLabel={'yaxis'}
-          yAxisSuffix={'$'}
+          height={600}
+          fromZero
+          showValuesOnTopOfBars
+          yAxisLabel={''}
+          yAxisSuffix={' $'}
+          verticalLabelRotation={30}
           chartConfig={{
             backgroundColor: '#141E30',
             backgroundGradientFrom: '#141E30',
             backgroundGradientTo: '#141E30',
-            decimalPlaces: 2, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16,
-            },
-            propsForDots: {
-              r: '6',
-              strokeWidth: '2',
-              stroke: '#ffa726',
+            color: () => `#0ea5e9`,
+            labelColor: () => '#10b981',
+            paddingTop: 20,
+            propsForLabels: {
+              translateY: -5,
             },
           }}
-          verticalLabelRotation={30}
         />
-      </Center>
+      </View>
     </ScreenWrapper>
   );
 };
