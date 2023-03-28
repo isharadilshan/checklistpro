@@ -41,3 +41,13 @@ export const isEmpty = (value: string | number | object): boolean => {
     return false;
   }
 };
+
+/**
+ * @method isNumber
+ * @param {String | Number | Object} value
+ * @returns {Boolean} true & false
+ * @description this value is Number Check
+ */
+export const isNumber = (value: any) => {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+};

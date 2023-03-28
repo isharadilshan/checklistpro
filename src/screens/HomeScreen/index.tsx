@@ -10,10 +10,9 @@ import {
   CALENDAR,
   CHART,
   EXPENSE,
-  HOME,
-  MAP,
-  SUMMARY,
+  EXPENSE_SUMMARY,
   TODOS,
+  TODO_SUMMARY,
 } from '../../routes/route-paths';
 import {fetchExpenseList} from '../../redux/actions/expense';
 import {fetchTodoList} from '../../redux/actions/todo';
@@ -60,22 +59,22 @@ const HomeScreen: React.FC = () => {
       onPress: () => navigation.navigate(CALENDAR as never),
     },
     {
-      id: 'MAP',
-      title: 'MAP',
-      onPress: () => navigation.navigate(MAP as never),
+      id: 'CHARTS',
+      title: 'CHARTS',
+      onPress: () => navigation.navigate(CHART as never),
     },
   ];
 
   const thirdRow: CardItem[] = [
     {
-      id: 'CHARTS',
-      title: 'CHARTS',
-      onPress: () => navigation.navigate(CHART as never),
+      id: 'TODO_SUMMARY',
+      title: 'TODO_SUMMARY',
+      onPress: () => navigation.navigate(TODO_SUMMARY as never),
     },
     {
-      id: 'SUMMARY',
-      title: 'SUMMARY',
-      onPress: () => navigation.navigate(SUMMARY as never),
+      id: 'EXPENSE_SUMMARY',
+      title: 'EXPENSE_SUMMARY',
+      onPress: () => navigation.navigate(EXPENSE_SUMMARY as never),
     },
   ];
 
@@ -83,18 +82,18 @@ const HomeScreen: React.FC = () => {
     <ScreenWrapper noPaddings={false}>
       <View style={styles.contentWrapper}>
         <Center style={styles.cardWrapper}>
-          {firstRow.map(({id, title, onPress}: CardItem, index: number) => (
-            <ContentCard key={title} id={id} title={title} onPress={onPress} />
+          {firstRow.map(({id, title, onPress}: CardItem) => (
+            <ContentCard key={id} title={title} onPress={onPress} />
           ))}
         </Center>
         <Center style={styles.cardWrapper}>
-          {secondRow.map(({id, title, onPress}: CardItem, index: number) => (
-            <ContentCard key={title} id={id} title={title} onPress={onPress} />
+          {secondRow.map(({id, title, onPress}: CardItem) => (
+            <ContentCard key={id} title={title} onPress={onPress} />
           ))}
         </Center>
         <Center style={styles.cardWrapper}>
-          {thirdRow.map(({id, title, onPress}: CardItem, index: number) => (
-            <ContentCard key={title} id={id} title={title} onPress={onPress} />
+          {thirdRow.map(({id, title, onPress}: CardItem) => (
+            <ContentCard key={id} title={title} onPress={onPress} />
           ))}
         </Center>
       </View>

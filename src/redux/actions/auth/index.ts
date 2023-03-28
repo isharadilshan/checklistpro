@@ -12,6 +12,6 @@ export const getUserInfo = () => {
   return {type: GET_USER_INFO};
 };
 
-export const setUserInfo = (payload: any) => {
+export const setUserInfo = (payload: {}) => {
   return {type: SET_USER_INFO, payload};
 };

@@ -3,11 +3,12 @@ import {Button, Modal, useToast, View} from 'native-base';
 import {useForm} from 'react-hook-form';
 import FormInputController from '../../atoms/FormInputController';
 import FormSelectController from '../../atoms/FormSelectController';
-import AlertToast from '../../molecules/AlertBanner';
+import AlertToast from '../../molecules/AlertToast';
 import {createExpense} from '../../../services/expenses';
 import {useDispatch} from 'react-redux';
 import {fetchTodoList} from '../../../redux/actions/todo';
 import {createTodo} from '../../../services/todos';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 enum FormFields {
   title = 'title',
@@ -60,7 +61,7 @@ const TodoCreateModal: React.FC<TodoCreateModalProps> = ({
       try {
         const response = await createTodo(data);
         //@ts-ignore
-        await dispatch(fetchTodoList());
+        dispatch(fetchTodoList());
         closeModal();
         reset();
       } catch (err: any) {
@@ -133,6 +134,10 @@ const TodoCreateModal: React.FC<TodoCreateModalProps> = ({
               {key: 1, label: 'Personal', value: 'PERSONAL'},
               {key: 2, label: 'Work', value: 'WORK'},
             ]}
+          />
+          <DateTimePicker
+            value={new Date()}
+            onChange={(value) => console.log('VAUE --------', value)}
           />
           <FormSelectController
             control={control}

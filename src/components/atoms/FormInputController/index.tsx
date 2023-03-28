@@ -7,7 +7,7 @@ import {
   Path,
   RegisterOptions,
 } from 'react-hook-form';
-
+import createStyle from './styles';
 interface FormInputControllerProps<FieldsType> {
   name: Path<FieldsType>;
   defaultValue?: string;
@@ -34,11 +34,13 @@ const FormInputController = <FieldsType,>({
   const isInvalid = error != null;
   const isRequired = rules != null && 'required' in rules;
 
+  const styles = createStyle();
+
   return (
     <FormControl
       isInvalid={isInvalid}
       isRequired={isRequired}
-      style={{marginBottom: 10}}
+      style={styles.controlWrapper}
     >
       {label != null && <FormControl.Label>{label}</FormControl.Label>}
       <Controller

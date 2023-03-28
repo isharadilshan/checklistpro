@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import {Fab, Input, Text, View, useToast} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,55 +9,45 @@ import ExpenseListItem from '../../components/molecules/ExpenseListItem';
 import {deleteExpense} from '../../services/expenses';
 import DeleteConfirmModal from '../../components/organisms/DeleteConfirmModal';
 import {fetchExpenseList} from '../../redux/actions/expense';
-import AlertToast from '../../components/molecules/AlertBanner';
+import AlertToast from '../../components/molecules/AlertToast';
 import ExprenseEditModal from '../../components/organisms/ExpenseEditModal';
-import ExprenseSkeleton from '../../components/organisms/ExpenseSkeleton';
+import ListEmptySkeleton from '../../components/organisms/ListEmptySkeleton';
 import createStyle from './styles';
+import {Expense} from '../../shared/models';
+import {hasLocationPermission} from '../../utils/permission/LocationPermission';
 
 const ExpenseScreen: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
   const [dCModalVisible, setDCModalVisible] = useState<boolean>(false);
-  const [selectedExpenseId, setSelectedExpenseId] = useState<string>('');
+  const [selectedExpense, setSelectedExpense] = useState<any | null>(null);
   const [searchText, setSearchText] = useState<string>('');
-  const [expenses, setExpenses] = useState<any>([]);
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
   const expenseList = useSelector<any, []>(({expense}) => expense.expenseList);
+  const isFetchingExpenses = useSelector<any, boolean>(
+    ({expense}) => expense.isFetchingExpenses,
+  );
   const dispatch = useDispatch();
   const toast = useToast();
   const styles = createStyle();
 
-  const fetchExpenses = useCallback(async () => {
-    try {
-      setIsFetching(true);
-      // const response = await getProductList(type);
-
-      // if (response.data) {
-      //   setProducts(response.data);
-      // }
-      // setIsFetching(false);
-      // setIsRefreshing(false);
-    } catch (e) {
-      // error
-      setIsFetching(false);
-      setIsRefreshing(false);
+  const checkLocationPermission = useCallback(async () => {
+    const hasPermission = await hasLocationPermission();
+    if (!hasPermission) {
+      return;
     }
   }, []);
 
+  useEffect(() => {
+    checkLocationPermission;
+  }, [checkLocationPermission]);
+
   const filterExpenses = () => {
     if (!searchText) {
-      return expenses;
+      return expenseList;
     }
 
-    const items = expenses.filter((expense) => {
-      if (
-        expense?.title.toLowerCase().includes(searchText.toLowerCase()) ||
-        expense?.description
-          .toString()
-          .toLowerCase()
-          .includes(searchText.toLowerCase())
-      ) {
+    const items = expenseList.filter((expense: Expense) => {
+      if (expense?.title.toLowerCase().includes(searchText.toLowerCase())) {
         return expense;
       }
     });
@@ -65,22 +55,22 @@ const ExpenseScreen: React.FC = () => {
     return items;
   };
 
-  const onPressEdit = (id) => {
+  const onPressEdit = (item) => {
     setEditModalVisible(true);
-    setSelectedExpenseId(id);
+    setSelectedExpense(item);
   };
 
-  const onPressDelete = async (id) => {
+  const onPressDelete = async (item) => {
     setDCModalVisible(true);
-    setSelectedExpenseId(id);
+    setSelectedExpense(item);
   };
 
   const onPressConfirmDelete = async () => {
     try {
-      const response = await deleteExpense(selectedExpenseId);
-      //@ts-ignore
-      await dispatch(fetchExpenseList());
+      await deleteExpense(selectedExpense?.id);
       setDCModalVisible(false);
+      //@ts-ignore
+      dispatch(fetchExpenseList());
       toast.show({
         render: () => {
           return (
@@ -110,33 +100,26 @@ const ExpenseScreen: React.FC = () => {
   };
 
   const refreshList = () => {
-    setExpenses([]);
-    fetchExpenses();
+    //@ts-ignore
+    dispatch(fetchExpenseList());
   };
-
-  useEffect(() => {
-    fetchExpenses();
-  }, [fetchExpenses]);
 
   return (
     <ScreenWrapper noPaddings={false}>
       <Input
-        w={'100%'}
-        alignSelf="center"
-        placeholder="Search Todos"
-        width="100%"
-        p={3}
         mt={4}
         mb={4}
-        style={{color: 'white'}}
+        size={'xl'}
+        style={styles.searchInput}
+        placeholder="Search Expenses"
         onChangeText={(value) => setSearchText(value)}
         InputLeftElement={
-          <Icon color="gray" size={30} style={{marginLeft: 10}} name="search" />
+          <Icon size={20} style={styles.searchIcon} name="search" />
         }
       />
       <FlatList
-        data={expenseList}
-        renderItem={({item}: any) => {
+        data={filterExpenses()}
+        renderItem={({item}: {item: Expense}) => {
           return (
             <ExpenseListItem
               id={item?._id}
@@ -145,38 +128,34 @@ const ExpenseScreen: React.FC = () => {
               amount={item?.amount}
               category={item?.category}
               createdDate={item?.createdDate}
-              onPressDelete={(id) => onPressDelete(id)}
-              onPressEdit={(id) => onPressEdit(id)}
+              updatedDate={item?.updatedDate}
+              latitude={item?.latitude}
+              longitude={item?.longitude}
+              onPressDelete={(item) => onPressDelete(item)}
+              onPressEdit={(item) => onPressEdit(item)}
             />
           );
         }}
-        refreshing={isRefreshing}
+        refreshing={isFetchingExpenses}
         onRefresh={refreshList}
-        keyExtractor={(item) => item._id.toString()}
+        keyExtractor={(item: Expense) => item._id.toString()}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => {
-          if (isRefreshing || isFetching) {
-            return <ExprenseSkeleton />;
+          if (isFetchingExpenses) {
+            return <ListEmptySkeleton />;
           }
           return (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Text>{'No Expense Data Available'}</Text>
+            <View style={styles.emptyText}>
+              <Text color={'coolGray.200'}>{'No Expense Data Available'}</Text>
             </View>
           );
         }}
       />
       <Fab
         mb={6}
-        renderInPortal={false}
         shadow={2}
         size="sm"
-        icon={<Icon color="white" name="plus" />}
+        icon={<Icon style={styles.fabIcon} name="plus" />}
         label="Create New"
         onPress={() => setCreateModalVisible(true)}
       />
@@ -187,6 +166,8 @@ const ExpenseScreen: React.FC = () => {
       <ExprenseEditModal
         modalVisible={editModalVisible}
         closeModal={() => setEditModalVisible(false)}
+        //@ts-ignore
+        selectedExpense={selectedExpense}
       />
       <DeleteConfirmModal
         modalVisible={dCModalVisible}

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<Memo(ForwardRef(FormControl))
+  isInvalid={true}
+  isRequired={false}
+  style={
+    {
+      "marginBottom": 10,
+    }
+  }
+>
+  <Memo(ForwardRef(FormControlLabel))>
+    FORM SELECT
+  </Memo(ForwardRef(FormControlLabel))>
+  <Component
+    name="TEST FORM SELECT CONTROLLER"
+    render={[Function]}
+  />
+  <Memo(ForwardRef(FormControlErrorMessage)) />
+</Memo(ForwardRef(FormControl))>
+`;

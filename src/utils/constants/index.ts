@@ -4,6 +4,7 @@
 export const EMAIL_VALIDATE_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+//months for select dropdown
 export const MONTHS = [
   {
     key: 1,
@@ -67,6 +68,7 @@ export const MONTHS = [
   },
 ];
 
+//expense categories for select dropdown
 export const EXPENSE_CATEGORIES = [
   {
     key: 1,
@@ -82,5 +84,43 @@ export const EXPENSE_CATEGORIES = [
     key: 3,
     label: 'Transport',
     value: 'TRANSPORT',
+  },
+];
+
+//tod categories for select dropdown
+export const TODO_CATEGORIES = [
+  {
+    key: 1,
+    label: 'Personal',
+    value: 'PERSONAL',
+  },
+  {
+    key: 2,
+    label: 'Work',
+    value: 'WORK',
+  },
+];
+
+//tod status for select dropdown
+export const TODO_STATUS = [
+  {
+    key: 1,
+    label: 'ToDo',
+    value: 'TODO',
+  },
+  {
+    key: 2,
+    label: 'In-Progress',
+    value: 'INPROGRESS',
+  },
+  {
+    key: 1,
+    label: 'Hold',
+    value: 'HOLD',
+  },
+  {
+    key: 2,
+    label: 'Done',
+    value: 'DONE',
   },
 ];

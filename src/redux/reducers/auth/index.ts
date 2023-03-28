@@ -12,7 +12,7 @@ export const authInitialState = {
 
 const authReducer = (
   state = authInitialState,
-  action: {type: any; payload: any},
+  action: {type: string; payload: any},
 ) => {
   switch (action.type) {
     case SET_USER_AUTHENTICATED:

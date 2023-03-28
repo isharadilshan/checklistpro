@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Config from 'react-native-config';
 
 const headerConfigs = {
   'Content-Type': 'application/json',

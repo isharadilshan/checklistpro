@@ -7,8 +7,11 @@ type TodoListItemProps = {
   id: string;
   title: string;
   description: string;
+  status: string;
   category: string;
   createdDate: number;
+  updatedDate: number;
+  hideButtons: boolean;
   onPressEdit: (id: string) => void;
   onPressDelete: (id: string) => void;
 };
@@ -17,8 +20,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   id,
   title,
   description,
+  status,
   category,
   createdDate,
+  updatedDate,
+  hideButtons,
   onPressEdit,
   onPressDelete,
 }) => {
@@ -56,28 +62,30 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
             </Badge>
           </View>
         </Box>
-        <Box w={'25%'}>
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'flex-end',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Icon
-              name="square-edit-outline"
-              size={30}
-              color="#94a3b8"
-              onPress={() => onPressEdit(id)}
-            />
-            <Icon
-              name="delete"
-              size={30}
-              color="#94a3b8"
-              onPress={() => onPressDelete(id)}
-            />
-          </View>
-        </Box>
+        {!hideButtons && (
+          <Box w={'25%'}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'flex-end',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Icon
+                name="square-edit-outline"
+                size={30}
+                color="#94a3b8"
+                onPress={() => onPressEdit(id)}
+              />
+              <Icon
+                name="delete"
+                size={30}
+                color="#94a3b8"
+                onPress={() => onPressDelete(id)}
+              />
+            </View>
+          </Box>
+        )}
       </HStack>
     </Box>
   );
