@@ -1,32 +1,19 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { Box, AspectRatio, Image, Center } from 'native-base';
+import {TouchableOpacity} from 'react-native';
+import {Box, AspectRatio, Image, Center} from 'native-base';
+import createStyle from './styles';
 
 type CardItem = {
-  id: string;
   title: string;
   onPress: () => void;
 };
 
-const ContentCard: React.FC<CardItem> = ({ title, onPress }) => {
+const ContentCard: React.FC<CardItem> = ({title, onPress}) => {
+  const styles = createStyle();
+
   return (
     <TouchableOpacity onPress={onPress}>
-      <Box
-        maxW="40"
-        rounded="lg"
-        overflow="hidden"
-        borderColor="coolGray.200"
-        borderWidth="1"
-        _dark={{
-          borderColor: 'coolGray.600',
-          backgroundColor: 'gray.700',
-        }}
-        _light={{
-          backgroundColor: 'gray.50',
-        }}
-        mx={2}
-        my={6}
-      >
+      <Box maxW="40" style={styles.cardWrapper}>
         <Box>
           <AspectRatio w="100%" ratio={4 / 3}>
             <Image
@@ -37,19 +24,12 @@ const ContentCard: React.FC<CardItem> = ({ title, onPress }) => {
             />
           </AspectRatio>
           <Center
-            bg="violet.500"
-            _dark={{
-              bg: 'violet.400',
-            }}
+            style={styles.taglineWrapper}
             _text={{
               color: 'warmGray.50',
               fontWeight: '700',
               fontSize: 'xs',
             }}
-            position="absolute"
-            bottom="0"
-            px="3"
-            py="1.5"
           >
             {title}
           </Center>

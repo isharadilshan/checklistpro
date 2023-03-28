@@ -1,51 +1,49 @@
-import React, {useRef} from 'react';
-import {Button, Modal, useToast, View} from 'native-base';
+import React, {useEffect, useRef} from 'react';
+import {Button, Modal, useToast} from 'native-base';
+import {useDispatch} from 'react-redux';
 import {useForm} from 'react-hook-form';
 import FormInputController from '../../atoms/FormInputController';
 import FormSelectController from '../../atoms/FormSelectController';
-import AlertToast from '../../molecules/AlertBanner';
-import {createExpense} from '../../../services/expenses';
+import AlertToast from '../../molecules/AlertToast';
+import {updateExpense} from '../../../services/expenses';
 import {fetchExpenseList} from '../../../redux/actions/expense';
-import {useDispatch} from 'react-redux';
+import {isNumber} from '../../../utils/helper/Validator';
+import createStyle from './styles';
 
 enum FormFields {
   title = 'title',
   description = 'description',
   amount = 'amount',
   category = 'category',
-  createdDate = 'createdDate',
-  updatedDate = 'updatedDate',
-  latitude = 'latitude',
-  longitude = 'longitude',
 }
 
 type FormData = {
   title: string;
   description: string;
-  amount: number;
+  amount: string;
   category: string;
-  createdDate: number;
-  updatedDate: number;
-  latitude: number;
-  longitude: number;
 };
 
 type ExpenseCreateModalProps = {
   modalVisible: boolean;
+  selectedExpense: any;
   closeModal: () => void;
 };
 
 const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
   modalVisible,
+  selectedExpense,
   closeModal,
 }) => {
   const initialRef = useRef(null);
   const finalRef = useRef(null);
   const toast = useToast();
   const dispatch = useDispatch();
+  const styles = createStyle();
   const {
     control,
     handleSubmit,
+    setValue,
     formState: {errors},
     reset,
   } = useForm<FormData>();
@@ -55,21 +53,20 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
       const data = {
         title: title,
         description: description,
-        amount: 100,
+        amount: parseFloat(amount),
         category: category,
-        createdDate: Date.now(),
+        createdDate: selectedExpense.createdDate,
         updatedDate: Date.now(),
-        latitude: 12.34,
-        longitude: 12.34,
+        latitude: selectedExpense.latitude,
+        longitude: selectedExpense.longitude,
       };
       try {
-        await createExpense(data);
-        //@ts-ignore
-        await dispatch(fetchExpenseList());
+        await updateExpense(selectedExpense?.id, data);
         closeModal();
         reset();
+        //@ts-ignore
+        dispatch(fetchExpenseList());
       } catch (err: any) {
-        console.log('error', err.response.data);
         toast.show({
           render: () => {
             return (
@@ -86,6 +83,13 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
     },
   );
 
+  useEffect(() => {
+    setValue('title', selectedExpense?.title);
+    setValue('description', selectedExpense?.description);
+    setValue('amount', `${selectedExpense?.amount}`);
+    setValue('category', selectedExpense?.category);
+  }, [selectedExpense]);
+
   return (
     <Modal
       size={'xl'}
@@ -96,14 +100,11 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
       finalFocusRef={finalRef}
       useRNModal={true}
     >
-      <Modal.Content style={{backgroundColor: '#141E30'}}>
+      <Modal.Content style={styles.modalContent}>
         <Modal.CloseButton />
         <Modal.Header
-          style={{
-            borderBottomWidth: 0,
-            backgroundColor: '#141E30',
-          }}
-          _text={{color: 'white'}}
+          style={styles.modalHeader}
+          _text={{color: 'blueGray.200'}}
         >
           Edit Expense
         </Modal.Header>
@@ -134,6 +135,8 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
             type={'text'}
             rules={{
               required: 'Amount required',
+              validate: (value) =>
+                isNumber(value) || 'Only numerics are allowed',
             }}
           />
           <FormSelectController
@@ -145,20 +148,15 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
               required: 'Category required',
             }}
             items={[
-              {key: 1, label: 'Food', value: 'FOOD'},
-              {key: 2, label: 'Transport', value: 'TRANSPORT'},
-              {key: 3, label: 'Drinks', value: 'DRINKS'},
+              {key: '1', label: 'Food', value: 'FOOD'},
+              {key: '2', label: 'Medical', value: 'MEDICAL'},
+              {key: '3', label: 'Transport', value: 'TRANSPORT'},
             ]}
           />
         </Modal.Body>
-        <Modal.Footer
-          style={{
-            borderTopWidth: 0,
-            backgroundColor: '#141E30',
-          }}
-        >
+        <Modal.Footer style={styles.modalFooter}>
           <Button.Group>
-            <Button variant="ghost" colorScheme="blueGray" onPress={closeModal}>
+            <Button variant="ghost" onPress={closeModal}>
               Cancel
             </Button>
             <Button onPress={onSave}>Save</Button>

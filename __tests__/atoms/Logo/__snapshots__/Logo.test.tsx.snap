@@ -1,18 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`when rendering should render a component matching the snapshot 1`] = `
-<Image
-  source={
-    {
-      "testUri": "../../../src/assets/logo/swivel_tech.png",
-    }
-  }
+<Memo(ForwardRef(Center))
   style={
     {
-      "height": 128,
-      "marginBottom": 12,
-      "width": 128,
+      "marginVertical": 100,
     }
   }
-/>
+>
+  <Image
+    source={
+      {
+        "testUri": "../../../src/assets/logo/logo.png",
+      }
+    }
+    style={
+      {
+        "height": 128,
+        "marginBottom": 12,
+        "width": 128,
+      }
+    }
+  />
+</Memo(ForwardRef(Center))>
 `;

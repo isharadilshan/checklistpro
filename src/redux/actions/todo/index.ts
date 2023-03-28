@@ -1,11 +1,12 @@
 import {getTodoList} from '../../../services/todos';
+import {ToDo} from '../../../shared/models';
 import {GET_TODOS, SET_TODOS} from '../../action-types';
 
 export const getTodos = () => {
   return {type: GET_TODOS};
 };
 
-export const setTodos = (payload) => {
+export const setTodos = (payload: ToDo[]) => {
   return {type: SET_TODOS, payload};
 };
 
@@ -17,10 +18,6 @@ export const fetchTodoList = () => {
       dispatch(setTodos(response.data.data || []));
       return true;
     } catch (err) {
-      console.log(
-        'TODO LIST FETCH ERROR----------------------------------------------------------------',
-        err,
-      );
       dispatch(setTodos([]));
       return false;
     }

@@ -11,9 +11,12 @@ type ExpenseListItemProps = {
   amount: number;
   category: string;
   createdDate: number;
+  updatedDate: number;
+  latitude: number;
+  longitude: number;
   hideButtons?: boolean;
-  onPressEdit: (id: string) => void;
-  onPressDelete: (id: string) => void;
+  onPressEdit: ({}) => void;
+  onPressDelete: ({}) => void;
 };
 
 const ExpenseListItem: React.FC<ExpenseListItemProps> = ({
@@ -23,6 +26,9 @@ const ExpenseListItem: React.FC<ExpenseListItemProps> = ({
   amount,
   category,
   createdDate,
+  updatedDate,
+  latitude,
+  longitude,
   hideButtons,
   onPressEdit,
   onPressDelete,
@@ -30,7 +36,7 @@ const ExpenseListItem: React.FC<ExpenseListItemProps> = ({
   const styles = createStyle();
 
   return (
-    <Box style={styles.cardWrapper} p={2} my={2}>
+    <Box style={styles.cardWrapper}>
       <HStack height={'100%'}>
         <Box w={'50%'}>
           <View style={styles.textWrapper}>
@@ -57,14 +63,26 @@ const ExpenseListItem: React.FC<ExpenseListItemProps> = ({
               <Icon
                 name="square-edit-outline"
                 size={30}
-                color="#94a3b8"
-                onPress={() => onPressEdit(id)}
+                style={styles.iconStyle}
+                onPress={() =>
+                  onPressEdit({
+                    id,
+                    title,
+                    description,
+                    amount,
+                    category,
+                    createdDate,
+                    updatedDate,
+                    latitude,
+                    longitude,
+                  })
+                }
               />
               <Icon
                 name="delete"
                 size={30}
-                color="#94a3b8"
-                onPress={() => onPressDelete(id)}
+                style={styles.iconStyle}
+                onPress={() => onPressDelete({id})}
               />
             </View>
           </Box>

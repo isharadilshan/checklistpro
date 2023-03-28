@@ -37,6 +37,10 @@
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Give me permission senpai</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Give me permission senpai</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Give me permission senpai</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

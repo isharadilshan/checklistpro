@@ -8,6 +8,7 @@ import {
   RegisterOptions,
 } from 'react-hook-form';
 import ModalSelector from 'react-native-modal-selector';
+import createStyle from './styles';
 
 type SelectItem = {
   key: string;
@@ -41,11 +42,13 @@ const FormSelectController = <FieldsType,>({
   const isInvalid = error != null;
   const isRequired = rules != null && 'required' in rules;
 
+  const styles = createStyle();
+
   return (
     <FormControl
       isInvalid={isInvalid}
       isRequired={isRequired}
-      style={{marginBottom: 10}}
+      style={styles.controlWrapper}
     >
       {label != null && <FormControl.Label>{label}</FormControl.Label>}
       <Controller
@@ -57,8 +60,6 @@ const FormSelectController = <FieldsType,>({
             data={items}
             initValue={value}
             accessible={true}
-            scrollViewAccessibilityLabel={'Scrollable options'}
-            cancelButtonAccessibilityLabel={'Cancel Button'}
             onChange={(option) => onChange(option.value)}
           />
         )}

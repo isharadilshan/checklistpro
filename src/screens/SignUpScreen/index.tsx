@@ -6,7 +6,7 @@ import FormInputController from '../../components/atoms/FormInputController';
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
 import Logo from '../../components/atoms/Logo';
 import {LOGIN} from '../../routes/route-paths';
-import AlertToast from '../../components/molecules/AlertBanner';
+import AlertToast from '../../components/molecules/AlertToast';
 import store from '../../redux/store';
 import {setUserAuthenticated} from '../../redux/actions/auth';
 import {signUpWithEmailPassword} from '../../services/auth';

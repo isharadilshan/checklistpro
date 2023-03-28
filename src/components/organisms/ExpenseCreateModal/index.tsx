@@ -1,12 +1,15 @@
-import React, {useRef} from 'react';
-import {Button, Modal, useToast, View} from 'native-base';
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, Modal, useToast} from 'native-base';
 import {useForm} from 'react-hook-form';
+import {useDispatch} from 'react-redux';
+import Geolocation, {GeoPosition} from 'react-native-geolocation-service';
 import FormInputController from '../../atoms/FormInputController';
 import FormSelectController from '../../atoms/FormSelectController';
-import AlertToast from '../../molecules/AlertBanner';
+import AlertToast from '../../molecules/AlertToast';
 import {createExpense} from '../../../services/expenses';
 import {fetchExpenseList} from '../../../redux/actions/expense';
-import {useDispatch} from 'react-redux';
+import {isNumber} from '../../../utils/helper/Validator';
+import createStyle from './styles';
 
 enum FormFields {
   title = 'title',
@@ -22,7 +25,7 @@ enum FormFields {
 type FormData = {
   title: string;
   description: string;
-  amount: number;
+  amount: string;
   category: string;
   createdDate: number;
   updatedDate: number;
@@ -41,14 +44,36 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
 }) => {
   const initialRef = useRef(null);
   const finalRef = useRef(null);
+  const [location, setLocation] = useState<GeoPosition | null>(null);
   const toast = useToast();
   const dispatch = useDispatch();
+  const styles = createStyle();
   const {
     control,
     handleSubmit,
     formState: {errors},
     reset,
   } = useForm<FormData>();
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        setLocation(position);
+      },
+      (error) => {
+        console.log(error);
+      },
+      {
+        accuracy: {
+          android: 'high',
+          ios: 'best',
+        },
+        timeout: 15000,
+        maximumAge: 10000,
+        distanceFilter: 0,
+      },
+    );
+  }, []);
 
   const onSave = handleSubmit(
     async ({title, description, amount, category}) => {
@@ -59,17 +84,28 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
         category: category,
         createdDate: Date.now(),
         updatedDate: Date.now(),
-        latitude: 12.34,
-        longitude: 12.34,
+        latitude: location?.coords?.latitude || 12.0234,
+        longitude: location?.coords?.longitude || 102.3563,
       };
       try {
         await createExpense(data);
-        //@ts-ignore
-        await dispatch(fetchExpenseList());
         closeModal();
+        //@ts-ignore
+        dispatch(fetchExpenseList());
         reset();
+        toast.show({
+          render: () => {
+            return (
+              <AlertToast
+                title="Successfully created expense"
+                description={''}
+                variant="top-accent"
+                status="success"
+              />
+            );
+          },
+        });
       } catch (err: any) {
-        console.log('error', err.response.data);
         toast.show({
           render: () => {
             return (
@@ -96,14 +132,11 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
       finalFocusRef={finalRef}
       useRNModal={true}
     >
-      <Modal.Content style={{backgroundColor: '#141E30'}}>
+      <Modal.Content style={styles.modalContent}>
         <Modal.CloseButton />
         <Modal.Header
-          style={{
-            borderBottomWidth: 0,
-            backgroundColor: '#141E30',
-          }}
-          _text={{color: 'white'}}
+          style={styles.modalHeader}
+          _text={{color: 'blueGray.200'}}
         >
           Create New
         </Modal.Header>
@@ -134,6 +167,8 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
             type={'text'}
             rules={{
               required: 'Amount required',
+              validate: (value) =>
+                isNumber(value) || 'Only numerics are allowed',
             }}
           />
           <FormSelectController
@@ -151,14 +186,9 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
             ]}
           />
         </Modal.Body>
-        <Modal.Footer
-          style={{
-            borderTopWidth: 0,
-            backgroundColor: '#141E30',
-          }}
-        >
+        <Modal.Footer style={styles.modalFooter}>
           <Button.Group>
-            <Button variant="ghost" colorScheme="blueGray" onPress={closeModal}>
+            <Button variant="ghost" onPress={closeModal}>
               Cancel
             </Button>
             <Button onPress={onSave}>Save</Button>

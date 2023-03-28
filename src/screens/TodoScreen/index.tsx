@@ -1,88 +1,70 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState} from 'react';
 import {FlatList} from 'react-native';
-import {Fab, Input, useToast} from 'native-base';
+import {Fab, Input, Text, View, useToast} from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
 import {useDispatch, useSelector} from 'react-redux';
 import DeleteConfirmModal from '../../components/organisms/DeleteConfirmModal';
-import AlertToast from '../../components/molecules/AlertBanner';
-import ExprenseEditModal from '../../components/organisms/ExpenseEditModal';
+import AlertToast from '../../components/molecules/AlertToast';
 import TodoCreateModal from '../../components/organisms/TodoCreateModal';
 import {deleteTodo} from '../../services/todos';
 import {fetchTodoList} from '../../redux/actions/todo';
 import TodoListItem from '../../components/molecules/TodoListItem';
+import createStyle from './styles';
+import {ToDo} from '../../shared/models';
+import TodoEditModal from '../../components/organisms/TodoEditModal';
+import ListEmptySkeleton from '../../components/organisms/ListEmptySkeleton';
 
 const TodoScreen: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
   const [dCModalVisible, setDCModalVisible] = useState<boolean>(false);
-  const [selectedExpenseId, setSelectedExpenseId] = useState<string>('');
+  const [selectedTodo, setSelectedTodo] = useState<any | null>(null);
   const [searchText, setSearchText] = useState<string>('');
-  const [expenses, setExpenses] = useState<any>([]);
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
   const todoList = useSelector<any, []>(({todo}) => todo.todoList);
+  // const isFetchingTodos = useSelector<any, boolean>(
+  //   ({todo}) => todo.isFetchingTodos,
+  // );
+  const isFetchingTodos = true;
   const dispatch = useDispatch();
   const toast = useToast();
-
-  const fetchTodos = useCallback(async () => {
-    try {
-      setIsFetching(true);
-      // const response = await getProductList(type);
-
-      // if (response.data) {
-      //   setProducts(response.data);
-      // }
-      // setIsFetching(false);
-      // setIsRefreshing(false);
-    } catch (e) {
-      // error
-      setIsFetching(false);
-      setIsRefreshing(false);
-    }
-  }, []);
+  const styles = createStyle();
 
   const filterTodos = () => {
     if (!searchText) {
-      return expenses;
+      return todoList;
     }
 
-    const items = expenses.filter((expense) => {
-      if (
-        expense?.title.toLowerCase().includes(searchText.toLowerCase()) ||
-        expense?.description
-          .toString()
-          .toLowerCase()
-          .includes(searchText.toLowerCase())
-      ) {
-        return expense;
+    const items = todoList.filter((todo: ToDo) => {
+      if (todo?.title.toLowerCase().includes(searchText.toLowerCase())) {
+        return todo;
       }
     });
 
     return items;
   };
 
-  const onPressEdit = (id) => {
+  const onPressEdit = (item) => {
     setEditModalVisible(true);
-    setSelectedExpenseId(id);
+    setSelectedTodo(item);
   };
 
-  const onPressDelete = async (id) => {
+  const onPressDelete = async (item) => {
     setDCModalVisible(true);
-    setSelectedExpenseId(id);
+    setSelectedTodo(item);
   };
 
   const onPressConfirmDelete = async () => {
     try {
-      await deleteTodo(selectedExpenseId);
-      //@ts-ignore
-      await dispatch(fetchTodoList());
+      await deleteTodo(selectedTodo?.id);
       setDCModalVisible(false);
+      //@ts-ignore
+      dispatch(fetchTodoList());
       toast.show({
         render: () => {
           return (
             <AlertToast
-              title="Successfully deleted expense"
+              title="Successfully deleted todo"
               description={''}
               variant="top-accent"
               status="success"
@@ -107,34 +89,27 @@ const TodoScreen: React.FC = () => {
   };
 
   const refreshList = () => {
-    setIsRefreshing(true);
-    setExpenses([]);
-    fetchTodos();
+    //@ts-ignore
+    dispatch(fetchTodoList());
   };
-
-  useEffect(() => {
-    fetchTodos();
-  }, [fetchTodos]);
 
   return (
     <ScreenWrapper noPaddings={false}>
       <Input
-        w={'100%'}
-        alignSelf="center"
-        placeholder="Search Todos"
-        width="100%"
         p={3}
         mt={4}
         mb={4}
-        style={{color: 'white'}}
+        size={'xl'}
+        style={styles.searchInput}
+        placeholder="Search Todos"
         onChangeText={(value) => setSearchText(value)}
         InputLeftElement={
-          <Icon color="gray" size={30} style={{marginLeft: 10}} name="search" />
+          <Icon size={30} style={styles.searchIcon} name="search" />
         }
       />
       <FlatList
-        data={todoList}
-        renderItem={({item}: any) => {
+        data={[]}
+        renderItem={({item}: {item: ToDo}) => {
           return (
             <TodoListItem
               id={item?._id}
@@ -148,35 +123,26 @@ const TodoScreen: React.FC = () => {
             />
           );
         }}
-        refreshing={isRefreshing}
+        refreshing={isFetchingTodos}
         onRefresh={refreshList}
-        keyExtractor={(item) => item._id.toString()}
+        keyExtractor={(item: ToDo) => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        // ListEmptyComponent={() => {
-        //   if (isRefreshing || isFetching) {
-        //     return <ProductListPlaceholder />;
-        //   }
-        //   return (
-        //     <View
-        //       style={{
-        //         flex: 1,
-        //         justifyContent: 'center',
-        //         alignItems: 'center',
-        //       }}
-        //     >
-        //       <Title style={[styles.text, {color: colors.primary}]}>
-        //         {i18n.t('noProductsFound')}
-        //       </Title>
-        //     </View>
-        //   );
-        // }}
+        ListEmptyComponent={() => {
+          if (isFetchingTodos) {
+            return <ListEmptySkeleton />;
+          }
+          return (
+            <View style={styles.emptyText}>
+              <Text color={'coolGray.200'}>{'No Expense Data Available'}</Text>
+            </View>
+          );
+        }}
       />
       <Fab
         mb={6}
-        renderInPortal={false}
         shadow={2}
         size="sm"
-        icon={<Icon color="white" name="plus" />}
+        icon={<Icon style={styles.fabIcon} name="plus" />}
         label="Create New"
         onPress={() => setCreateModalVisible(true)}
       />
@@ -184,9 +150,11 @@ const TodoScreen: React.FC = () => {
         modalVisible={createModalVisible}
         closeModal={() => setCreateModalVisible(false)}
       />
-      <ExprenseEditModal
+      <TodoEditModal
         modalVisible={editModalVisible}
         closeModal={() => setEditModalVisible(false)}
+        //@ts-ignore
+        selectedTodo={selectedTodo}
       />
       <DeleteConfirmModal
         modalVisible={dCModalVisible}

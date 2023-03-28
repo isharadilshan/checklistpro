@@ -15,7 +15,7 @@ import {SIGNUP} from '../../routes/route-paths';
 import createStyle from './styles';
 import {validateEmail, validatePassword} from '../../utils/helper/Validator';
 import {loginWithEmailPassword} from '../../services/auth';
-import AlertToast from '../../components/molecules/AlertBanner';
+import AlertToast from '../../components/molecules/AlertToast';
 import store from '../../redux/store';
 import {setUserAuthenticated} from '../../redux/actions/auth';
 

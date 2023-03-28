@@ -1,15 +1,14 @@
 import 'react-native-gesture-handler';
 import 'react-native-get-random-values';
 import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
 import type {ReactNode} from 'react';
 import {NativeBaseProvider} from 'native-base';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
-// import NoNetworkFound from './components/organism/NoNetworkFound';
+import theme from './theme';
+import NoNetworkFound from './components/organisms/NoNetworkFound';
 import redux from './redux/store';
 import Routes from './routes';
-import {DefaultTheme} from './theme';
 import GlobalExceptionHandler from './components/organisms/GlobalExceptionHandler';
 
 const App: () => ReactNode = () => {
@@ -21,9 +20,9 @@ const App: () => ReactNode = () => {
 
   return (
     <Provider store={redux.store}>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <GlobalExceptionHandler />
-        {/* <NoNetworkFound /> */}
+        <NoNetworkFound />
         <Routes />
       </NativeBaseProvider>
     </Provider>
