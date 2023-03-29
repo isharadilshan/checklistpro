@@ -49,7 +49,7 @@ const HomeScreen: React.FC = () => {
   useEffect(() => {
     const intervalId = BackgroundTimer.setInterval(() => {
       checkTodosDueDates();
-    }, 20000);
+    }, 100000);
     return () => BackgroundTimer.clearInterval(intervalId);
   }, [todoList]);
 
@@ -60,9 +60,9 @@ const HomeScreen: React.FC = () => {
           render: () => {
             return (
               <AlertToast
-                title={`Todo Due in Today @${moment(todo.updatedDate).format(
-                  'LLLL',
-                )}`}
+                title={`Todo due within a day @${moment(
+                  todo.updatedDate,
+                ).format('LLLL')}`}
                 description={`${todo.title} ${todo.description}`}
                 variant="top-accent"
                 status="info"
