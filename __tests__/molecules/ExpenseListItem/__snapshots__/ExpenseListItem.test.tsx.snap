@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<Memo(ForwardRef(Box))
+  style={
+    {
+      "backgroundColor": "#1f2937",
+      "borderColor": "#e5e7eb",
+      "borderRadius": 4,
+      "borderWidth": 1,
+      "height": 150,
+      "marginVertical": 10,
+      "overflow": "hidden",
+      "padding": 10,
+    }
+  }
+>
+  <Memo(ForwardRef(HStack))
+    height="100%"
+  >
+    <Memo(ForwardRef(Box))
+      w="50%"
+    >
+      <ForwardRef
+        style={
+          {
+            "flex": 1,
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <ForwardRef>
+          <Memo(ForwardRef(Text))
+            color="blueGray.400"
+            fontSize="xl"
+          >
+            Expense Title
+          </Memo(ForwardRef(Text))>
+          <Memo(ForwardRef(Text))
+            color="blueGray.400"
+          >
+            Expense Description
+          </Memo(ForwardRef(Text))>
+          <Memo(ForwardRef(Text))
+            color="blueGray.400"
+          >
+            Wednesday, March 29, 2023 8:18 PM
+          </Memo(ForwardRef(Text))>
+        </ForwardRef>
+        <Memo(ForwardRef(Badge))
+          colorScheme="success"
+          variant="outline"
+          width={150}
+        >
+          MEDICAL
+        </Memo(ForwardRef(Badge))>
+      </ForwardRef>
+    </Memo(ForwardRef(Box))>
+    <Memo(ForwardRef(Box))
+      w="25%"
+    >
+      <Memo(ForwardRef(Text))
+        color="blueGray.400"
+        fontSize="2xl"
+      >
+        402
+      </Memo(ForwardRef(Text))>
+    </Memo(ForwardRef(Box))>
+    <Memo(ForwardRef(Box))
+      w="25%"
+    >
+      <ForwardRef
+        style={
+          {
+            "alignItems": "flex-end",
+            "flex": 1,
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          name="square-edit-outline"
+          onPress={[Function]}
+          size={30}
+          style={
+            {
+              "color": "#94a3b8",
+            }
+          }
+        />
+        <Icon
+          allowFontScaling={false}
+          name="delete"
+          onPress={[Function]}
+          size={30}
+          style={
+            {
+              "color": "#94a3b8",
+            }
+          }
+        />
+      </ForwardRef>
+    </Memo(ForwardRef(Box))>
+  </Memo(ForwardRef(HStack))>
+</Memo(ForwardRef(Box))>
+`;

@@ -1,4 +1,5 @@
 import {StyleSheet, TextStyle, ViewStyle} from 'react-native';
+import {Colors} from '../../theme/colors';
 
 interface Style {
   emptyDataWrapper: ViewStyle;
@@ -16,7 +17,7 @@ export default () => {
     },
     emptyDataText: {
       fontSize: 16,
-      color: '#94a3b8',
+      color: Colors.blueGray,
     },
     emptyDate: {
       flex: 1,
@@ -25,7 +26,7 @@ export default () => {
     },
     emptyDateText: {
       fontSize: 16,
-      color: '#94a3b8',
+      color: Colors.blueGray,
     },
   });
 };

@@ -1,14 +1,14 @@
-import React, {useRef} from 'react';
-import {Button, Modal, useToast, View} from 'native-base';
+import React, {useRef, useState} from 'react';
+import {Button, Modal, Text, useToast} from 'native-base';
 import {useForm} from 'react-hook-form';
+import {useDispatch} from 'react-redux';
+import DatePicker from 'react-native-date-picker';
 import FormInputController from '../../atoms/FormInputController';
 import FormSelectController from '../../atoms/FormSelectController';
 import AlertToast from '../../molecules/AlertToast';
-import {createExpense} from '../../../services/expenses';
-import {useDispatch} from 'react-redux';
 import {fetchTodoList} from '../../../redux/actions/todo';
 import {createTodo} from '../../../services/todos';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import createStyle from './styles';
 
 enum FormFields {
   title = 'title',
@@ -41,6 +41,9 @@ const TodoCreateModal: React.FC<TodoCreateModalProps> = ({
   const finalRef = useRef(null);
   const toast = useToast();
   const dispatch = useDispatch();
+  const styles = createStyle();
+  const [date, setDate] = useState(new Date());
+
   const {
     control,
     handleSubmit,
@@ -56,16 +59,28 @@ const TodoCreateModal: React.FC<TodoCreateModalProps> = ({
         category: category,
         status: status,
         createdDate: Date.now(),
-        updatedDate: Date.now(),
+        updatedDate: date.getTime(),
       };
       try {
-        const response = await createTodo(data);
+        await createTodo(data);
         //@ts-ignore
         dispatch(fetchTodoList());
         closeModal();
         reset();
+        setDate(new Date());
+        toast.show({
+          render: () => {
+            return (
+              <AlertToast
+                title="Successfully created todo"
+                description={''}
+                variant="top-accent"
+                status="success"
+              />
+            );
+          },
+        });
       } catch (err: any) {
-        console.log('error', err.response.data);
         toast.show({
           render: () => {
             return (
@@ -92,15 +107,9 @@ const TodoCreateModal: React.FC<TodoCreateModalProps> = ({
       finalFocusRef={finalRef}
       useRNModal={true}
     >
-      <Modal.Content style={{backgroundColor: '#141E30'}}>
+      <Modal.Content style={styles.modalContent}>
         <Modal.CloseButton />
-        <Modal.Header
-          style={{
-            borderBottomWidth: 0,
-            backgroundColor: '#141E30',
-          }}
-          _text={{color: 'white'}}
-        >
+        <Modal.Header style={styles.modalHeader} _text={{color: 'white'}}>
           Create New
         </Modal.Header>
         <Modal.Body>
@@ -108,6 +117,7 @@ const TodoCreateModal: React.FC<TodoCreateModalProps> = ({
             control={control}
             error={errors.title}
             label={'Title'}
+            placeholder={'Add title'}
             name={FormFields.title}
             rules={{
               required: 'Title required',
@@ -117,6 +127,7 @@ const TodoCreateModal: React.FC<TodoCreateModalProps> = ({
             control={control}
             error={errors.description}
             label={'Description'}
+            placeholder={'Add description'}
             name={FormFields.description}
             rules={{
               required: 'Description required',
@@ -126,41 +137,40 @@ const TodoCreateModal: React.FC<TodoCreateModalProps> = ({
             control={control}
             error={errors.category}
             label={'Category'}
+            placeholder={'Select category'}
             name={FormFields.category}
             rules={{
               required: 'Category required',
             }}
             items={[
-              {key: 1, label: 'Personal', value: 'PERSONAL'},
-              {key: 2, label: 'Work', value: 'WORK'},
+              {key: '1', label: 'Personal', value: 'PERSONAL'},
+              {key: '2', label: 'Work', value: 'WORK'},
             ]}
-          />
-          <DateTimePicker
-            value={new Date()}
-            onChange={(value) => console.log('VAUE --------', value)}
           />
           <FormSelectController
             control={control}
             error={errors.status}
             label={'Status'}
+            placeholder={'Select status'}
             name={FormFields.status}
             rules={{
               required: 'Status required',
             }}
             items={[
-              {key: 1, label: 'Todo', value: 'TODO'},
-              {key: 2, label: 'In-Progress', value: 'INPROGRESS'},
-              {key: 3, label: 'Hold', value: 'HOLD'},
-              {key: 4, label: 'Done', value: 'DONE'},
+              {key: '1', label: 'Todo', value: 'TODO'},
+              {key: '2', label: 'In-Progress', value: 'INPROGRESS'},
+              {key: '3', label: 'Hold', value: 'HOLD'},
+              {key: '4', label: 'Done', value: 'DONE'},
             ]}
           />
+          <Text color="gray.400">Due Date</Text>
+          <DatePicker
+            date={date}
+            onDateChange={setDate}
+            textColor={'#60a5fa'}
+          />
         </Modal.Body>
-        <Modal.Footer
-          style={{
-            borderTopWidth: 0,
-            backgroundColor: '#141E30',
-          }}
-        >
+        <Modal.Footer style={styles.modalFooter}>
           <Button.Group>
             <Button variant="ghost" colorScheme="blueGray" onPress={closeModal}>
               Cancel

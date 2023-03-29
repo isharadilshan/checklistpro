@@ -1,8 +1,8 @@
 import React from 'react';
 import {Box, Badge, HStack, View, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import createStyle from './styles';
 import {getDateName} from '../../../utils/helper/Date';
+import createStyle from './styles';
 
 type ExpenseListItemProps = {
   id: string;

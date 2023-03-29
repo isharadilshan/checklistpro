@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<TouchableOpacity
+  onPress={[MockFunction]}
+>
+  <Memo(ForwardRef(Box))
+    maxW="40"
+    style={
+      {
+        "backgroundColor": "#e5e7eb",
+        "borderColor": "#e5e7eb",
+        "borderRadius": 4,
+        "borderWidth": 1,
+        "margin": 10,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <Memo(ForwardRef(Box))>
+      <Memo(ForwardRef(AspectRatio))
+        ratio={1.3333333333333333}
+        w="100%"
+      >
+        <Memo(ForwardRef)
+          alt="image"
+          source={
+            {
+              "uri": "https://picsum.photos/seed/picsum/200/300",
+            }
+          }
+        />
+      </Memo(ForwardRef(AspectRatio))>
+      <Memo(ForwardRef(Center))
+        _text={
+          {
+            "color": "warmGray.50",
+            "fontSize": "xs",
+            "fontWeight": "700",
+          }
+        }
+        style={
+          {
+            "backgroundColor": "#7c3aed",
+            "bottom": 0,
+            "paddingHorizontal": 6,
+            "paddingVertical": 2,
+            "position": "absolute",
+          }
+        }
+      >
+        STORYBOOK-CARD
+      </Memo(ForwardRef(Center))>
+    </Memo(ForwardRef(Box))>
+  </Memo(ForwardRef(Box))>
+</TouchableOpacity>
+`;

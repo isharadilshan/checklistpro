@@ -145,6 +145,7 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
             control={control}
             error={errors.title}
             label={'Title'}
+            placeholder={'Add title'}
             name={FormFields.title}
             rules={{
               required: 'Title required',
@@ -154,6 +155,7 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
             control={control}
             error={errors.description}
             label={'Description'}
+            placeholder={'Add description'}
             name={FormFields.description}
             rules={{
               required: 'Description required',
@@ -163,6 +165,7 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
             control={control}
             error={errors.amount}
             label={'Amount'}
+            placeholder={'Add amount'}
             name={FormFields.amount}
             type={'text'}
             rules={{
@@ -175,6 +178,7 @@ const ExprenseCreateModal: React.FC<ExpenseCreateModalProps> = ({
             control={control}
             error={errors.category}
             label={'Category'}
+            placeholder={'Select Category'}
             name={FormFields.category}
             rules={{
               required: 'Category required',

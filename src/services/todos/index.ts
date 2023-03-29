@@ -7,7 +7,7 @@ export const getTodoList = () => {
 };
 
 // get todo by id
-export const getExpenseById = (id) => {
+export const getTodoById = (id) => {
   return Axios.get(`${TODOS}/${id}`);
 };
 
@@ -16,8 +16,8 @@ export const createTodo = (data: {}) => {
   return Axios.post(`${TODOS}`, data);
 };
 
-// update existing expense
-export const updateExpense = (id: string, data: {}) => {
+// update existing todo
+export const updateTodo = (id: string, data: {}) => {
   return Axios.put(`${TODOS}/${id}`, data);
 };
 

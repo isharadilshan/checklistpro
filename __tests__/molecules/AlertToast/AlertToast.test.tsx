@@ -3,7 +3,7 @@ import {describe, expect} from '@jest/globals';
 import {shallow, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
-import AlertBanner from '../../../src/components/molecules/AlertToast';
+import AlertToast from '../../../src/components/molecules/AlertToast';
 
 configure({adapter: new Adapter()});
 
@@ -37,7 +37,7 @@ const props = {
 };
 
 describe('when rendering', () => {
-  const wrapper = shallow(<AlertBanner {...props} />);
+  const wrapper = shallow(<AlertToast {...props} />);
 
   it('should render a component matching the snapshot', () => {
     const tree = toJson(wrapper);

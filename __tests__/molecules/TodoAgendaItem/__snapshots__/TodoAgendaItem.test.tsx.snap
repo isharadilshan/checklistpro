@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<ForwardRef
+  style={
+    {
+      "backgroundColor": "#141E30",
+      "borderRadius": 4,
+      "flex": 1,
+      "marginHorizontal": 10,
+      "marginVertical": 20,
+      "paddingHorizontal": 10,
+      "paddingVertical": 20,
+    }
+  }
+>
+  <Memo(ForwardRef(Text))
+    color="blueGray.400"
+    fontSize="xl"
+  >
+    Agenda Title
+  </Memo(ForwardRef(Text))>
+  <Memo(ForwardRef(Text))
+    color="blueGray.400"
+  >
+    Agenda Description
+  </Memo(ForwardRef(Text))>
+  <ForwardRef
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-around",
+      }
+    }
+  >
+    <Memo(ForwardRef(Badge))
+      colorScheme="success"
+      mt={4}
+      variant="solid"
+      width={100}
+    >
+      PERSONAL
+    </Memo(ForwardRef(Badge))>
+    <Memo(ForwardRef(Badge))
+      colorScheme="info"
+      mt={4}
+      variant="subtle"
+      width={100}
+    >
+      DONE
+    </Memo(ForwardRef(Badge))>
+  </ForwardRef>
+</ForwardRef>
+`;

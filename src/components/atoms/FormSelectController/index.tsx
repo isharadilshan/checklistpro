@@ -58,7 +58,7 @@ const FormSelectController = <FieldsType,>({
         render={({field: {onChange, value}}) => (
           <ModalSelector
             data={items}
-            initValue={value}
+            initValue={value || placeholder}
             accessible={true}
             onChange={(option) => onChange(option.value)}
           />
