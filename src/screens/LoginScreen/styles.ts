@@ -1,4 +1,5 @@
 import {ViewStyle, TextStyle, StyleSheet} from 'react-native';
+import {Colors} from '../../theme/colors';
 
 interface Style {
   screenWrapper: ViewStyle;
@@ -12,17 +13,17 @@ export default () => {
     screenWrapper: {
       flex: 1,
       paddingHorizontal: 16,
-      backgroundColor: '#141E30',
+      backgroundColor: Colors.primary,
     },
     textWrapper: {
       flexDirection: 'row',
       marginTop: 20,
     },
     normalText: {
-      color: '#737373',
+      color: Colors.textGray,
     },
     highlightText: {
-      color: '#ef4444',
+      color: Colors.highlightRed,
     },
   });
 };

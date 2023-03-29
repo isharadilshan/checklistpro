@@ -14,7 +14,7 @@ const configureStore = () => {
     key: 'root',
     storage: AsyncStorage,
     stateReconciler: hardSet,
-    whitelist: ['auth'],
+    whitelist: [],
   };
 
   const persistedReducer = persistReducer(persistConfig, rootReducer);

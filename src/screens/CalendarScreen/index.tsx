@@ -11,6 +11,7 @@ import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
 import createStyle from './styles';
 import {ToDo} from '../../shared/models';
 import TodoAgendaItem from '../../components/molecules/TodoAgendaItem';
+import {Colors} from '../../theme/colors';
 
 const CalendarScreen: React.FC = () => {
   const styles = createStyle();
@@ -75,10 +76,10 @@ const CalendarScreen: React.FC = () => {
         renderEmptyData={renderEmptyData}
         renderEmptyDate={renderEmptyDate}
         theme={{
-          calendarBackground: '#141E30',
-          agendaKnobColor: '#10b981',
+          calendarBackground: Colors.primary,
+          agendaKnobColor: Colors.highlightGreen,
           //@ts-ignore
-          reservationsBackgroundColor: '#1f2937',
+          reservationsBackgroundColor: Colors.coolGray,
         }}
       />
     </ScreenWrapper>

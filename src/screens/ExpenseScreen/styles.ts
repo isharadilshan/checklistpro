@@ -1,4 +1,5 @@
 import {ViewStyle, TextStyle, StyleSheet} from 'react-native';
+import {Colors} from '../../theme/colors';
 
 interface Style {
   searchInput: ViewStyle;
@@ -10,12 +11,12 @@ interface Style {
 export default () => {
   return StyleSheet.create<Style>({
     searchInput: {
-      color: '#e5e7eb',
+      color: Colors.textWhite,
       marginVertical: 5,
     },
     searchIcon: {
       marginLeft: 10,
-      color: '#e5e7eb',
+      color: Colors.textWhite,
     },
     emptyText: {
       flex: 1,
@@ -24,7 +25,7 @@ export default () => {
       alignItems: 'center',
     },
     fabIcon: {
-      color: '#ffffff',
+      color: Colors.textWhite,
     },
   });
 };

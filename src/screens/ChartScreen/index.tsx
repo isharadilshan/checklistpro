@@ -5,6 +5,7 @@ import {BarChart} from 'react-native-chart-kit';
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
 import createStyle from './styles';
 import {Expense} from '../../shared/models';
+import {Colors} from '../../theme/colors';
 
 type AmountObjectProps = {
   amount: number;
@@ -51,11 +52,11 @@ const ChartScreen: React.FC = () => {
           yAxisSuffix={' $'}
           verticalLabelRotation={30}
           chartConfig={{
-            backgroundColor: '#141E30',
-            backgroundGradientFrom: '#141E30',
-            backgroundGradientTo: '#141E30',
-            color: () => `#0ea5e9`,
-            labelColor: () => '#10b981',
+            backgroundColor: Colors.primary,
+            backgroundGradientFrom: Colors.primary,
+            backgroundGradientTo: Colors.primary,
+            color: () => Colors.highlightBlue,
+            labelColor: () => Colors.highlightGreen,
             paddingTop: 20,
             propsForLabels: {
               translateY: -5,
