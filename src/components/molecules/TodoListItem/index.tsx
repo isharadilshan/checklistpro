@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Badge, HStack, View, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getDateName} from '../../../utils/helper/Date';
+import {getHumanReadableDate} from '../../../utils/helper/Date';
 import createStyle from './styles';
 
 type TodoListItemProps = {
@@ -65,7 +65,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
               </Text>
               <Text color={'blueGray.400'}>{description}</Text>
               <Text mt={3} color={'blueGray.400'}>
-                {getDateName(updatedDate)}
+                {getHumanReadableDate(updatedDate)}
               </Text>
             </View>
             <View style={styles.tagWrapper}>
