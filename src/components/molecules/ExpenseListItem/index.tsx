@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Badge, HStack, View, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getDateName} from '../../../utils/helper/Date';
+import {getHumanReadableDate} from '../../../utils/helper/Date';
 import createStyle from './styles';
 
 type ExpenseListItemProps = {
@@ -45,7 +45,9 @@ const ExpenseListItem: React.FC<ExpenseListItemProps> = ({
                 {title}
               </Text>
               <Text color={'blueGray.400'}>{description}</Text>
-              <Text color={'blueGray.400'}>{getDateName(createdDate)}</Text>
+              <Text color={'blueGray.400'}>
+                {getHumanReadableDate(createdDate)}
+              </Text>
             </View>
             <Badge width={150} variant={'outline'} colorScheme="success">
               {category}

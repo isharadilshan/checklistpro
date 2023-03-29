@@ -7,7 +7,7 @@ import ExpenseListItem from '../../components/molecules/ExpenseListItem';
 import {fetchExpenseList} from '../../redux/actions/expense';
 import ListEmptySkeleton from '../../components/organisms/ListEmptySkeleton';
 import {EXPENSE_CATEGORIES, MONTHS} from '../../utils/constants';
-import {getDateName} from '../../utils/helper/Date';
+import {getHumanReadableDate, timestampToString} from '../../utils/helper/Date';
 import {isEmpty} from '../../utils/helper/Validator';
 import {Expense} from '../../shared/models';
 import createStyle from './styles';
@@ -37,14 +37,14 @@ const ExpenseSummaryScreen: React.FC = () => {
     if (!isEmpty(month) && !isEmpty(category)) {
       const filteredArray = expenseList.filter((expense: Expense) => {
         return (
-          getDateName(expense.createdDate).split('-')[1] === month &&
+          timestampToString(expense.createdDate).split('-')[1] === month &&
           expense.category === category
         );
       });
       setFilteredExpenses(filteredArray);
     } else if (!isEmpty(month)) {
       const filteredArray = expenseList.filter((expense: Expense) => {
-        return getDateName(expense.createdDate).split('-')[1] === month;
+        return timestampToString(expense.createdDate).split('-')[1] === month;
       });
       setFilteredExpenses(filteredArray);
     } else if (!isEmpty(category)) {

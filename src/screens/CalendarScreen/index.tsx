@@ -12,6 +12,7 @@ import createStyle from './styles';
 import {ToDo} from '../../shared/models';
 import TodoAgendaItem from '../../components/molecules/TodoAgendaItem';
 import {Colors} from '../../theme/colors';
+import {timestampToString} from '../../utils/helper/Date';
 
 const CalendarScreen: React.FC = () => {
   const styles = createStyle();
@@ -20,7 +21,7 @@ const CalendarScreen: React.FC = () => {
 
   const loadItems = (day: DateData) => {
     const agenda = todoList.reduce((groups: any, todo: ToDo) => {
-      const date = timeToString(todo.createdDate);
+      const date = timestampToString(todo.createdDate);
       if (!groups[date]) {
         groups[date] = [];
       }
@@ -58,11 +59,6 @@ const CalendarScreen: React.FC = () => {
 
   const rowHasChanged = (r1: AgendaEntry, r2: AgendaEntry) => {
     return r1.name !== r2.name;
-  };
-
-  const timeToString = (time: number) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
   };
 
   return (

@@ -9,7 +9,7 @@ const Routes: React.FC = () => {
 
   return (
     <NavigationContainer>
-      {!isAuthenticated ? <AuthenticatedStack /> : <UnAuthenticatedStack />}
+      {isAuthenticated ? <AuthenticatedStack /> : <UnAuthenticatedStack />}
     </NavigationContainer>
   );
 };
