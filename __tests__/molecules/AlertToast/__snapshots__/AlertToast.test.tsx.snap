@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<Memo(ForwardRef(Alert))
+  alignSelf="center"
+  defaultValue="test"
+  error="This is not a valid form input"
+  flexDirection="row"
+  items={
+    [
+      {
+        "key": 1,
+        "label": "ToDo",
+        "value": "TODO",
+      },
+      {
+        "key": 2,
+        "label": "In-Progress",
+        "value": "INPROGRESS",
+      },
+      {
+        "key": 1,
+        "label": "Hold",
+        "value": "HOLD",
+      },
+      {
+        "key": 2,
+        "label": "Done",
+        "value": "DONE",
+      },
+    ]
+  }
+  label="FORM SELECT"
+  maxWidth="95%"
+  name="TEST FORM SELECT CONTROLLER"
+  status="info"
+>
+  <Memo(ForwardRef(VStack))
+    flexShrink={1}
+    space={1}
+    w="100%"
+  >
+    <Memo(ForwardRef(HStack))
+      alignItems="center"
+      flexShrink={1}
+      justifyContent="space-between"
+    >
+      <Memo(ForwardRef(HStack))
+        alignItems="center"
+        flexShrink={1}
+        space={2}
+      >
+        <Memo(ForwardRef(AlertIcon)) />
+        <Memo(ForwardRef(Text))
+          color="darkText"
+          flexShrink={1}
+          fontSize="md"
+          fontWeight="medium"
+        />
+      </Memo(ForwardRef(HStack))>
+    </Memo(ForwardRef(HStack))>
+    <Memo(ForwardRef(Text))
+      color="darkText"
+      px="6"
+    />
+  </Memo(ForwardRef(VStack))>
+</Memo(ForwardRef(Alert))>
+`;

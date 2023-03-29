@@ -1,4 +1,4 @@
-# React Native Project to demo basic CRUD functionalities for ToDo application
+# Sample Expense Tracking App built with React Native
 
 ## Prerequisites
 
@@ -11,14 +11,18 @@
 ## Base dependencies
 
 - [axios](https://www.npmjs.com/package/axios) rest client.
-- [prop-types](https://github.com/facebook/prop-types) to prop type-check.
+- [native-base](https://docs.nativebase.io) as component library.
 - [react-navigation](https://reactnavigation.org/) navigation library.
 - [redux](https://redux.js.org/) for state management.
 - [redux-persist](https://www.npmjs.com/package/redux-persist) as persistance layer.
 - [redux-thunk](https://www.npmjs.com/package/redux-thunk) to dispatch asynchronous actions.
+- [redux-thunk](https://www.npmjs.com/package/redux-logger) log redux actions in dev mode.
 - [@react-native-async-storage/async-storage](https://www.npmjs.com/package/@react-native-async-storage/async-storage) as key value storage system.
 - [@react-native-community/netinfo](https://www.npmjs.com/package/@react-native-community/netinfo) as network info api
 - [react-native-exception-handler](https://www.npmjs.com/package/react-native-exception-handler) as global error handler
+- [react-native-vector-icons](https://www.npmjs.com/package/react-native-vector-icons) as icon library
+- [react-native-splash-screen](https://www.npmjs.com/package/react-native-splash-screen) to support native splash screen
+- [react-native-calendars](https://www.npmjs.com/package/react-native-calendars) as calendar library
 
 ## Folder structure
 
@@ -30,16 +34,16 @@ This project follows a very simple folder structure:
     - `organism`: contain all combined ui elements.
     - `wrappers`: contain all common component wrappers.
   - `redux`: contain all redux specific code
-    - `actions`: contain all actions, and expose the combined result using its `index.js`
-    - `reducers`: contain all reducers, and expose the combined result using its `index.js`
+    - `actions`: contain all actions, and expose the combined result using its `index.ts`
+    - `reducers`: contain all reducers, and expose the combined result using its `index.ts`
     - `store`: state container which holds the application's state
   - `routes`: contain all the routes.
   - `screens`: contain all application screens.
     - `Screen`: screen specific folder.
-      - `index.js`
+      - `index.tsx`
   - `services`: contain all service calls.
   - `utils`: contain helper functions and constants.
-  - `App.js`: Main component that starts whole app.
+  - `App.tsx`: Main component that starts whole app.
 - `index.js`: Entry point of application as per React-Native standards.
 
 ## Running this app
@@ -47,20 +51,24 @@ This project follows a very simple folder structure:
 Before running the app, make sure you run:
 
 ```sh
-git clone https://github.com/isharadilshan/checklist.git
+git clone https://github.com/isharadilshan/checklistpro.git
+
 cd checklist
-npm install or yarn install
+
+npm install --legacy-peer-deps or yarn install
 ```
+
+some packages might not updated its peer react dependency. so use legacy command when installing packages with npm
 
 ### Running on iOS
 
 Mac OS and Xcode are required.
 
 ```sh
-cd ./checklist/ios && pod install
+cd ./checklistpro/ios && pod install
 ```
 
-- Open `checklist/ios/checklist.xcworkspace` in Xcode
+- Open `checklistpro/ios/checklist.xcworkspace` in Xcode
 - Hit the Run button
 
 ### Running on Android
@@ -68,8 +76,8 @@ cd ./checklist/ios && pod install
 You'll need to have all the [prerequisites](https://github.com/facebook/react-native/tree/master/ReactAndroid#prerequisites) (SDK, NDK) for Building React Native installed.
 
 ```sh
-cd ./checklist
-react-native run-android
+cd ./checklistpro
+npm run android
 ```
 
 Open the checklist app in your emulator.

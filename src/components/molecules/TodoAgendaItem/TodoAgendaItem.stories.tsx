@@ -11,6 +11,7 @@ export default {
 
 export const Basic: ComponentStory<typeof TodoAgendaItem> = () => {
   const args = {
+    height: 150,
     data: 'Agenda Title@Agenda Description@PERSONAL@DONE',
   };
   return (

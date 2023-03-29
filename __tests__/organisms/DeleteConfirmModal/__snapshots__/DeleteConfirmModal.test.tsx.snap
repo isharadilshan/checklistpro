@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when rendering should render a component matching the snapshot 1`] = `
+<Memo(ForwardRef(Modal))
+  avoidKeyboard={true}
+  finalFocusRef={
+    {
+      "current": null,
+    }
+  }
+  initialFocusRef={
+    {
+      "current": null,
+    }
+  }
+  isOpen={true}
+  onClose={[MockFunction]}
+  size="xl"
+>
+  <Memo(ForwardRef(ModalContent))
+    style={
+      {
+        "backgroundColor": "#141E30",
+      }
+    }
+  >
+    <Memo(ForwardRef(ModalCloseButton)) />
+    <Memo(ForwardRef(ModalHeader))
+      _text={
+        {
+          "color": "blueGray.200",
+        }
+      }
+      style={
+        {
+          "backgroundColor": "#141E30",
+          "borderBottomWidth": 0,
+        }
+      }
+    >
+      Delete Expense
+    </Memo(ForwardRef(ModalHeader))>
+    <Memo(ForwardRef(ModalBody))>
+      <Memo(ForwardRef(Text))
+        color="blueGray.200"
+      >
+        Are you sure to delete modal
+      </Memo(ForwardRef(Text))>
+    </Memo(ForwardRef(ModalBody))>
+    <Memo(ForwardRef(ModalFooter))
+      style={
+        {
+          "backgroundColor": "#141E30",
+          "borderTopWidth": 0,
+        }
+      }
+    >
+      <Memo(ForwardRef)>
+        <Memo(ForwardRef(Button))
+          colorScheme="blueGray"
+          onPress={[MockFunction]}
+          variant="ghost"
+        >
+          Cancel
+        </Memo(ForwardRef(Button))>
+        <Memo(ForwardRef(Button))
+          onPress={[MockFunction]}
+        >
+          Confirm
+        </Memo(ForwardRef(Button))>
+      </Memo(ForwardRef)>
+    </Memo(ForwardRef(ModalFooter))>
+  </Memo(ForwardRef(ModalContent))>
+</Memo(ForwardRef(Modal))>
+`;
