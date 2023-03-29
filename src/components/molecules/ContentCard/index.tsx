@@ -5,10 +5,11 @@ import createStyle from './styles';
 
 type CardItem = {
   title: string;
+  imgUrl: string;
   onPress: () => void;
 };
 
-const ContentCard: React.FC<CardItem> = ({title, onPress}) => {
+const ContentCard: React.FC<CardItem> = ({title, imgUrl, onPress}) => {
   const styles = createStyle();
 
   return (
@@ -18,7 +19,7 @@ const ContentCard: React.FC<CardItem> = ({title, onPress}) => {
           <AspectRatio w="100%" ratio={4 / 3}>
             <Image
               source={{
-                uri: 'https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg',
+                uri: imgUrl,
               }}
               alt="image"
             />

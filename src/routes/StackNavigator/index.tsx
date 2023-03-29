@@ -19,7 +19,6 @@ import HomeScreen from '../../screens/HomeScreen';
 import TodoScreen from '../../screens/TodoScreen';
 import CalendarScreen from '../../screens/CalendarScreen';
 import ChartScreen from '../../screens/ChartScreen';
-import MapScreen from '../../screens/MapScreen';
 import ExpenseScreen from '../../screens/ExpenseScreen';
 import ExpenseSummaryScreen from '../../screens/ExpenseSummaryScreen';
 import TodoSummaryScreen from '../../screens/TodoSummaryScreen';
@@ -69,7 +68,6 @@ const AuthenticatedStack: React.FC = () => {
       <Stack.Screen name={TODOS} component={TodoScreen} />
       <Stack.Screen name={CALENDAR} component={CalendarScreen} />
       <Stack.Screen name={CHART} component={ChartScreen} />
-      <Stack.Screen name={MAP} component={MapScreen} />
       <Stack.Screen name={EXPENSE} component={ExpenseScreen} />
       <Stack.Screen name={EXPENSE_SUMMARY} component={ExpenseSummaryScreen} />
       <Stack.Screen name={TODO_SUMMARY} component={TodoSummaryScreen} />

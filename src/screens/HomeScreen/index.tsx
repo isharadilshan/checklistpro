@@ -19,6 +19,7 @@ import {fetchTodoList} from '../../redux/actions/todo';
 
 type CardItem = {
   id: string;
+  imgUrl: string;
   title: string;
   onPress: () => void;
 };
@@ -43,11 +44,13 @@ const HomeScreen: React.FC = () => {
     {
       id: 'TODOS',
       title: 'TODOS',
+      imgUrl: 'https://picsum.photos/id/175/200/300',
       onPress: () => navigation.navigate(TODOS as never),
     },
     {
       id: 'EXPENSES',
       title: 'EXPENSES',
+      imgUrl: 'https://picsum.photos/id/60/200/300',
       onPress: () => navigation.navigate(EXPENSE as never),
     },
   ];
@@ -56,11 +59,13 @@ const HomeScreen: React.FC = () => {
     {
       id: 'CALENDAR',
       title: 'CALENDAR',
+      imgUrl: 'https://picsum.photos/id/180/200/300',
       onPress: () => navigation.navigate(CALENDAR as never),
     },
     {
       id: 'CHARTS',
       title: 'CHARTS',
+      imgUrl: 'https://picsum.photos/id/20/200/300',
       onPress: () => navigation.navigate(CHART as never),
     },
   ];
@@ -69,11 +74,13 @@ const HomeScreen: React.FC = () => {
     {
       id: 'TODO_SUMMARY',
       title: 'TODO_SUMMARY',
+      imgUrl: 'https://picsum.photos/id/48/200/300',
       onPress: () => navigation.navigate(TODO_SUMMARY as never),
     },
     {
       id: 'EXPENSE_SUMMARY',
       title: 'EXPENSE_SUMMARY',
+      imgUrl: 'https://picsum.photos/id/96/200/300',
       onPress: () => navigation.navigate(EXPENSE_SUMMARY as never),
     },
   ];
@@ -82,18 +89,33 @@ const HomeScreen: React.FC = () => {
     <ScreenWrapper noPaddings={false}>
       <View style={styles.contentWrapper}>
         <Center style={styles.cardWrapper}>
-          {firstRow.map(({id, title, onPress}: CardItem) => (
-            <ContentCard key={id} title={title} onPress={onPress} />
+          {firstRow.map(({id, title, imgUrl, onPress}: CardItem) => (
+            <ContentCard
+              key={id}
+              title={title}
+              imgUrl={imgUrl}
+              onPress={onPress}
+            />
           ))}
         </Center>
         <Center style={styles.cardWrapper}>
-          {secondRow.map(({id, title, onPress}: CardItem) => (
-            <ContentCard key={id} title={title} onPress={onPress} />
+          {secondRow.map(({id, title, imgUrl, onPress}: CardItem) => (
+            <ContentCard
+              key={id}
+              title={title}
+              imgUrl={imgUrl}
+              onPress={onPress}
+            />
           ))}
         </Center>
         <Center style={styles.cardWrapper}>
-          {thirdRow.map(({id, title, onPress}: CardItem) => (
-            <ContentCard key={id} title={title} onPress={onPress} />
+          {thirdRow.map(({id, title, imgUrl, onPress}: CardItem) => (
+            <ContentCard
+              key={id}
+              title={title}
+              imgUrl={imgUrl}
+              onPress={onPress}
+            />
           ))}
         </Center>
       </View>

@@ -24,13 +24,13 @@ type FormData = {
   category: string;
 };
 
-type ExpenseCreateModalProps = {
+type ExpenseEditModalProps = {
   modalVisible: boolean;
   selectedExpense: any;
   closeModal: () => void;
 };
 
-const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
+const ExprenseEditModal: React.FC<ExpenseEditModalProps> = ({
   modalVisible,
   selectedExpense,
   closeModal,
@@ -61,11 +61,23 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
         longitude: selectedExpense.longitude,
       };
       try {
-        await updateExpense(selectedExpense?.id, data);
+        updateExpense(selectedExpense?.id, data);
         closeModal();
         reset();
         //@ts-ignore
         dispatch(fetchExpenseList());
+        toast.show({
+          render: () => {
+            return (
+              <AlertToast
+                title="Updated expense details successfully"
+                description={``}
+                variant="top-accent"
+                status="success"
+              />
+            );
+          },
+        });
       } catch (err: any) {
         toast.show({
           render: () => {
@@ -113,6 +125,7 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
             control={control}
             error={errors.title}
             label={'Title'}
+            placeholder={'Add title'}
             name={FormFields.title}
             rules={{
               required: 'Title required',
@@ -122,6 +135,7 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
             control={control}
             error={errors.description}
             label={'Description'}
+            placeholder={'Add description'}
             name={FormFields.description}
             rules={{
               required: 'Description required',
@@ -131,6 +145,7 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
             control={control}
             error={errors.amount}
             label={'Amount'}
+            placeholder={'Add amount'}
             name={FormFields.amount}
             type={'text'}
             rules={{
@@ -143,6 +158,7 @@ const ExprenseEditModal: React.FC<ExpenseCreateModalProps> = ({
             control={control}
             error={errors.category}
             label={'Category'}
+            placeholder={'Select category'}
             name={FormFields.category}
             rules={{
               required: 'Category required',

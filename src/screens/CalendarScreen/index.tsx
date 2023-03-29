@@ -24,7 +24,7 @@ const CalendarScreen: React.FC = () => {
         groups[date] = [];
       }
       groups[date].push({
-        name: `${todo.title}@${todo.description}@${todo.category}`,
+        name: `${todo.title}@${todo.description}@${todo.category}@${todo.status}`,
         height: 120,
         day: date,
       });

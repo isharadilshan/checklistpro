@@ -1,12 +1,13 @@
-import React, {useRef} from 'react';
-import {Button, Modal, useToast, View} from 'native-base';
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, Modal, Text, useToast} from 'native-base';
 import {useForm} from 'react-hook-form';
+import DatePicker from 'react-native-date-picker';
 import FormInputController from '../../atoms/FormInputController';
 import FormSelectController from '../../atoms/FormSelectController';
 import AlertToast from '../../molecules/AlertToast';
 import {useDispatch} from 'react-redux';
 import {fetchTodoList} from '../../../redux/actions/todo';
-import {createTodo} from '../../../services/todos';
+import {updateTodo} from '../../../services/todos';
 import createStyle from './styles';
 
 enum FormFields {
@@ -14,8 +15,6 @@ enum FormFields {
   description = 'description',
   category = 'category',
   status = 'status',
-  createdDate = 'createdDate',
-  updatedDate = 'updatedDate',
 }
 
 type FormData = {
@@ -23,17 +22,17 @@ type FormData = {
   description: string;
   category: string;
   status: string;
-  createdDate: number;
-  updatedDate: number;
 };
 
-type TodoCreateModalProps = {
+type TodoEditModalProps = {
   modalVisible: boolean;
+  selectedTodo: any;
   closeModal: () => void;
 };
 
-const TodoEditModal: React.FC<TodoCreateModalProps> = ({
+const TodoEditModal: React.FC<TodoEditModalProps> = ({
   modalVisible,
+  selectedTodo,
   closeModal,
 }) => {
   const initialRef = useRef(null);
@@ -41,9 +40,12 @@ const TodoEditModal: React.FC<TodoCreateModalProps> = ({
   const toast = useToast();
   const dispatch = useDispatch();
   const styles = createStyle();
+  const [date, setDate] = useState(new Date());
+
   const {
     control,
     handleSubmit,
+    setValue,
     formState: {errors},
     reset,
   } = useForm<FormData>();
@@ -55,15 +57,27 @@ const TodoEditModal: React.FC<TodoCreateModalProps> = ({
         description: description,
         category: category,
         status: status,
-        createdDate: Date.now(),
-        updatedDate: Date.now(),
+        createdDate: new Date(selectedTodo.createdDate).getTime(),
+        updatedDate: date.getTime(),
       };
       try {
-        const response = await createTodo(data);
+        updateTodo(selectedTodo?.id, data);
+        closeModal();
         //@ts-ignore
         dispatch(fetchTodoList());
-        closeModal();
         reset();
+        toast.show({
+          render: () => {
+            return (
+              <AlertToast
+                title="Updated todo details successfully"
+                description={``}
+                variant="top-accent"
+                status="success"
+              />
+            );
+          },
+        });
       } catch (err: any) {
         console.log('error', err.response.data);
         toast.show({
@@ -82,6 +96,14 @@ const TodoEditModal: React.FC<TodoCreateModalProps> = ({
     },
   );
 
+  useEffect(() => {
+    setValue('title', selectedTodo?.title);
+    setValue('description', selectedTodo?.description);
+    setValue('status', `${selectedTodo?.status}`);
+    setValue('category', selectedTodo?.category);
+    setDate(new Date());
+  }, [selectedTodo]);
+
   return (
     <Modal
       size={'xl'}
@@ -92,22 +114,17 @@ const TodoEditModal: React.FC<TodoCreateModalProps> = ({
       finalFocusRef={finalRef}
       useRNModal={true}
     >
-      <Modal.Content style={{backgroundColor: '#141E30'}}>
+      <Modal.Content style={styles.modalContent}>
         <Modal.CloseButton />
-        <Modal.Header
-          style={{
-            borderBottomWidth: 0,
-            backgroundColor: '#141E30',
-          }}
-          _text={{color: 'white'}}
-        >
-          Create New
+        <Modal.Header style={styles.modalHeader} _text={{color: 'white'}}>
+          Update ToDo
         </Modal.Header>
         <Modal.Body>
           <FormInputController
             control={control}
             error={errors.title}
             label={'Title'}
+            placeholder={'Add title'}
             name={FormFields.title}
             rules={{
               required: 'Title required',
@@ -117,6 +134,7 @@ const TodoEditModal: React.FC<TodoCreateModalProps> = ({
             control={control}
             error={errors.description}
             label={'Description'}
+            placeholder={'Add description'}
             name={FormFields.description}
             rules={{
               required: 'Description required',
@@ -126,6 +144,7 @@ const TodoEditModal: React.FC<TodoCreateModalProps> = ({
             control={control}
             error={errors.category}
             label={'Category'}
+            placeholder={'Select category'}
             name={FormFields.category}
             rules={{
               required: 'Category required',
@@ -139,6 +158,7 @@ const TodoEditModal: React.FC<TodoCreateModalProps> = ({
             control={control}
             error={errors.status}
             label={'Status'}
+            placeholder={'Select status'}
             name={FormFields.status}
             rules={{
               required: 'Status required',
@@ -149,6 +169,12 @@ const TodoEditModal: React.FC<TodoCreateModalProps> = ({
               {key: '3', label: 'Hold', value: 'HOLD'},
               {key: '4', label: 'Done', value: 'DONE'},
             ]}
+          />
+          <Text color="gray.400">Due Date</Text>
+          <DatePicker
+            date={date}
+            onDateChange={setDate}
+            textColor={'#60a5fa'}
           />
         </Modal.Body>
         <Modal.Footer style={styles.modalFooter}>

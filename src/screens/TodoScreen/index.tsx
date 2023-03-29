@@ -22,10 +22,9 @@ const TodoScreen: React.FC = () => {
   const [selectedTodo, setSelectedTodo] = useState<any | null>(null);
   const [searchText, setSearchText] = useState<string>('');
   const todoList = useSelector<any, []>(({todo}) => todo.todoList);
-  // const isFetchingTodos = useSelector<any, boolean>(
-  //   ({todo}) => todo.isFetchingTodos,
-  // );
-  const isFetchingTodos = true;
+  const isFetchingTodos = useSelector<any, boolean>(
+    ({todo}) => todo.isFetchingTodos,
+  );
   const dispatch = useDispatch();
   const toast = useToast();
   const styles = createStyle();
@@ -108,7 +107,7 @@ const TodoScreen: React.FC = () => {
         }
       />
       <FlatList
-        data={[]}
+        data={filterTodos()}
         renderItem={({item}: {item: ToDo}) => {
           return (
             <TodoListItem
@@ -116,8 +115,10 @@ const TodoScreen: React.FC = () => {
               title={item?.title}
               description={item?.description}
               category={item?.category}
+              status={item?.status}
               createdDate={item?.createdDate}
               updatedDate={item?.updatedDate}
+              hideButtons={false}
               onPressDelete={(id) => onPressDelete(id)}
               onPressEdit={(id) => onPressEdit(id)}
             />
@@ -133,7 +134,7 @@ const TodoScreen: React.FC = () => {
           }
           return (
             <View style={styles.emptyText}>
-              <Text color={'coolGray.200'}>{'No Expense Data Available'}</Text>
+              <Text color={'coolGray.200'}>{'No ToDo Data Available'}</Text>
             </View>
           );
         }}

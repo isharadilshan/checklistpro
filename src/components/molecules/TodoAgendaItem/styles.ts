@@ -2,6 +2,7 @@ import {StyleSheet, ViewStyle} from 'react-native';
 
 interface Style {
   agendaItemWrapper: ViewStyle;
+  tagWrapper: ViewStyle;
 }
 
 export default () => {
@@ -14,6 +15,10 @@ export default () => {
       marginVertical: 20,
       marginHorizontal: 10,
       backgroundColor: '#141E30',
+    },
+    tagWrapper: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
     },
   });
 };
