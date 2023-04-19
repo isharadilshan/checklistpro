@@ -13,8 +13,8 @@ type TodoListItemProps = {
   createdDate: number;
   updatedDate: number;
   hideButtons: boolean;
-  onPressEdit: ({}) => void;
-  onPressDelete: ({}) => void;
+  onPressEdit: () => void;
+  onPressDelete: () => void;
 };
 
 const TodoListItem: React.FC<TodoListItemProps> = ({

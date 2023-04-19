@@ -6,6 +6,6 @@ const headerConfigs = {
 };
 
 export const Axios = axios.create({
-  baseURL: 'http://143.198.206.156:3001/',
+  baseURL: 'http://143.198.206.156:3001',
   headers: headerConfigs,
 });

@@ -15,8 +15,8 @@ type ExpenseListItemProps = {
   latitude: number;
   longitude: number;
   hideButtons?: boolean;
-  onPressEdit: ({}) => void;
-  onPressDelete: ({}) => void;
+  onPressEdit: () => void;
+  onPressDelete: () => void;
 };
 
 const ExpenseListItem: React.FC<ExpenseListItemProps> = ({

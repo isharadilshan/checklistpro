@@ -92,6 +92,17 @@ const TodoScreen: React.FC = () => {
     dispatch(fetchTodoList());
   };
 
+  const renderEmptyList = () => {
+    if (isFetchingTodos) {
+      return <ListEmptySkeleton />;
+    }
+    return (
+      <View style={styles.emptyText}>
+        <Text color={'coolGray.200'}>{'No ToDo Data Available'}</Text>
+      </View>
+    );
+  };
+
   return (
     <ScreenWrapper noPaddings={false}>
       <Input
@@ -128,16 +139,7 @@ const TodoScreen: React.FC = () => {
         onRefresh={refreshList}
         keyExtractor={(item: ToDo) => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => {
-          if (isFetchingTodos) {
-            return <ListEmptySkeleton />;
-          }
-          return (
-            <View style={styles.emptyText}>
-              <Text color={'coolGray.200'}>{'No ToDo Data Available'}</Text>
-            </View>
-          );
-        }}
+        ListEmptyComponent={renderEmptyList}
       />
       <Fab
         mb={6}

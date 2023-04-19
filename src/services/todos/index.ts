@@ -1,27 +1,27 @@
 import {Axios} from '../rest-client';
 import {TODOS} from '../endpoints';
 
-// fetch todo list
+// fetch list
 export const getTodoList = () => {
   return Axios.get(`${TODOS}`);
 };
 
-// get todo by id
+// get by id
 export const getTodoById = (id) => {
   return Axios.get(`${TODOS}/${id}`);
 };
 
-// create new todo
+// create new
 export const createTodo = (data: {}) => {
   return Axios.post(`${TODOS}`, data);
 };
 
-// update existing todo
+// update existing
 export const updateTodo = (id: string, data: {}) => {
   return Axios.put(`${TODOS}/${id}`, data);
 };
 
-// delete existing todo
+// delete existing
 export const deleteTodo = (id: string) => {
   return Axios.delete(`${TODOS}/${id}`);
 };

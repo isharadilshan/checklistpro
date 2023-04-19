@@ -1,8 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, Platform, PermissionsAndroid} from 'react-native';
 import {Fab, Input, Text, View, useToast} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Geolocation from 'react-native-geolocation-service';
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
 import ExprenseCreateModal from '../../components/organisms/ExpenseCreateModal';
 import ExpenseListItem from '../../components/molecules/ExpenseListItem';
@@ -14,7 +15,6 @@ import ExprenseEditModal from '../../components/organisms/ExpenseEditModal';
 import ListEmptySkeleton from '../../components/organisms/ListEmptySkeleton';
 import createStyle from './styles';
 import {Expense} from '../../shared/models';
-import {hasLocationPermission} from '../../utils/permission/LocationPermission';
 
 const ExpenseScreen: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
@@ -30,16 +30,9 @@ const ExpenseScreen: React.FC = () => {
   const toast = useToast();
   const styles = createStyle();
 
-  const checkLocationPermission = useCallback(async () => {
-    const hasPermission = await hasLocationPermission();
-    if (!hasPermission) {
-      return;
-    }
-  }, []);
-
   useEffect(() => {
-    checkLocationPermission;
-  }, [checkLocationPermission]);
+    requestLocationPermissions;
+  }, []);
 
   const filterExpenses = () => {
     if (!searchText) {
@@ -104,6 +97,29 @@ const ExpenseScreen: React.FC = () => {
     dispatch(fetchExpenseList());
   };
 
+  const requestLocationPermissions = async () => {
+    if (Platform.OS === 'ios') {
+      Geolocation.requestAuthorization('whenInUse');
+    }
+
+    if (Platform.OS === 'android') {
+      await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+    }
+  };
+
+  const renderEmptyList = () => {
+    if (isFetchingExpenses) {
+      return <ListEmptySkeleton />;
+    }
+    return (
+      <View style={styles.emptyText}>
+        <Text color={'coolGray.200'}>{'No Expense Data Available'}</Text>
+      </View>
+    );
+  };
+
   return (
     <ScreenWrapper noPaddings={false}>
       <Input
@@ -140,16 +156,7 @@ const ExpenseScreen: React.FC = () => {
         onRefresh={refreshList}
         keyExtractor={(item: Expense) => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => {
-          if (isFetchingExpenses) {
-            return <ListEmptySkeleton />;
-          }
-          return (
-            <View style={styles.emptyText}>
-              <Text color={'coolGray.200'}>{'No Expense Data Available'}</Text>
-            </View>
-          );
-        }}
+        ListEmptyComponent={renderEmptyList}
       />
       <Fab
         mb={6}

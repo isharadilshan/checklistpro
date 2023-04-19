@@ -7,7 +7,7 @@ import ExpenseListItem from '../../components/molecules/ExpenseListItem';
 import {fetchExpenseList} from '../../redux/actions/expense';
 import ListEmptySkeleton from '../../components/organisms/ListEmptySkeleton';
 import {EXPENSE_CATEGORIES, MONTHS} from '../../utils/constants';
-import {getHumanReadableDate, timestampToString} from '../../utils/helper/Date';
+import {timestampToString} from '../../utils/helper/Date';
 import {isEmpty} from '../../utils/helper/Validator';
 import {Expense} from '../../shared/models';
 import createStyle from './styles';
@@ -60,6 +60,17 @@ const ExpenseSummaryScreen: React.FC = () => {
   useEffect(() => {
     filterExpenses();
   }, [filterExpenses]);
+
+  const renderEmptyList = () => {
+    if (isFetchingExpenses) {
+      return <ListEmptySkeleton />;
+    }
+    return (
+      <View style={styles.emptyText}>
+        <Text color={'coolGray.200'}>{'No Expense Data Available'}</Text>
+      </View>
+    );
+  };
 
   return (
     <ScreenWrapper noPaddings={false}>
@@ -136,16 +147,7 @@ const ExpenseSummaryScreen: React.FC = () => {
         onRefresh={refreshList}
         keyExtractor={(item) => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => {
-          if (isFetchingExpenses) {
-            return <ListEmptySkeleton />;
-          }
-          return (
-            <View style={styles.emptyText}>
-              <Text color={'coolGray.200'}>{'No Expense Data Available'}</Text>
-            </View>
-          );
-        }}
+        ListEmptyComponent={renderEmptyList}
       />
     </ScreenWrapper>
   );

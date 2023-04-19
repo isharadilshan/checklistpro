@@ -1,6 +1,5 @@
 import {Axios} from '../rest-client';
 import {EXPENSES} from '../endpoints';
-import {Expense} from '../../shared/models';
 
 // get expenses list
 export const getExpenseList = () => {

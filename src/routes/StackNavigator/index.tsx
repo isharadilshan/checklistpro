@@ -8,7 +8,6 @@ import {
   EXPENSE_SUMMARY,
   HOME,
   LOGIN,
-  MAP,
   SIGNUP,
   TODOS,
   TODO_SUMMARY,

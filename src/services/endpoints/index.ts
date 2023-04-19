@@ -1,5 +1,5 @@
 //tods endpoint
-export const TODOS = 'todos';
+export const TODOS = '/todos';
 
 //expenses endpoint
-export const EXPENSES = 'expenses';
+export const EXPENSES = '/expenses';

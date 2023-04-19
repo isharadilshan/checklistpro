@@ -81,3 +81,23 @@ npm run android
 ```
 
 Open the checklist app in your emulator.
+
+### Testing
+
+Unit tests were written with Jest and Enzyme to test run below command
+
+```sh
+npm run test
+```
+
+UI tests were written with storybook to test run below command
+
+```sh
+npm run storybook
+```
+
+### CI / CD
+
+For static code analysis used a sonarqube server hosted on seperate server [http://167.71.205.129:9000/dashboard?id=tracker-frontend]. request credentials when you need to access.
+
+For deployments codepush and AppCenter platform used. [https://appcenter.ms]

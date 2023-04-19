@@ -57,6 +57,17 @@ const TodoSummaryScreen: React.FC = () => {
     filterTodos();
   }, [filterTodos]);
 
+  const renderEmptyList = () => {
+    if (isFetchingTodos) {
+      return <ListEmptySkeleton />;
+    }
+    return (
+      <View style={styles.emptyText}>
+        <Text color={'coolGray.200'}>{'No ToDo Data Available'}</Text>
+      </View>
+    );
+  };
+
   return (
     <ScreenWrapper noPaddings={false}>
       <HStack justifyContent={'space-between'} mb={4} mt={4}>
@@ -130,16 +141,7 @@ const TodoSummaryScreen: React.FC = () => {
         onRefresh={refreshList}
         keyExtractor={(item) => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => {
-          if (isFetchingTodos) {
-            return <ListEmptySkeleton />;
-          }
-          return (
-            <View style={styles.emptyText}>
-              <Text color={'coolGray.200'}>{'No ToDo Data Available'}</Text>
-            </View>
-          );
-        }}
+        ListEmptyComponent={renderEmptyList}
       />
     </ScreenWrapper>
   );

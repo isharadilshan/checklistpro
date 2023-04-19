@@ -15,7 +15,7 @@ import {
   TODOS,
   TODO_SUMMARY,
 } from '../../routes/route-paths';
-import {fetchExpenseList} from '../../redux/actions/expense';
+import {fetchExpenseList, getExpenses} from '../../redux/actions/expense';
 import {fetchTodoList} from '../../redux/actions/todo';
 import AlertToast from '../../components/molecules/AlertToast';
 import createStyle from './styles';
@@ -36,6 +36,22 @@ const HomeScreen: React.FC = () => {
   const todoList = useSelector<any, []>(({todo}) => todo?.todoList);
 
   const fetchInitialData = useCallback(async () => {
+    try {
+      const response = await getExpenses();
+    } catch (err) {
+      toast.show({
+        render: () => {
+          return (
+            <AlertToast
+              title="Something went wrong"
+              description={`${err}`}
+              variant="top-accent"
+              status="error"
+            />
+          );
+        },
+      });
+    }
     //@ts-ignore
     dispatch(fetchExpenseList());
     //@ts-ignore
