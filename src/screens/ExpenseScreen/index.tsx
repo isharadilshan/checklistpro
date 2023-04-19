@@ -117,7 +117,7 @@ const ExpenseScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    requestLocationPermissions;
+    requestLocationPermissions();
   }, []);
 
   return (
