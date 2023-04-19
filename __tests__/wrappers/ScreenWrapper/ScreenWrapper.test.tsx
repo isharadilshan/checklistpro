@@ -3,7 +3,7 @@ import {describe, expect} from '@jest/globals';
 import {shallow, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
-import ScreenWrapper from '../../../../src/components/wrappers/ScreenWrapper';
+import ScreenWrapper from '../../../src/components/wrappers/ScreenWrapper';
 
 configure({adapter: new Adapter()});
 
