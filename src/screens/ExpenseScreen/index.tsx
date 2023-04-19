@@ -30,10 +30,6 @@ const ExpenseScreen: React.FC = () => {
   const toast = useToast();
   const styles = createStyle();
 
-  useEffect(() => {
-    requestLocationPermissions;
-  }, []);
-
   const filterExpenses = () => {
     if (!searchText) {
       return expenseList;
@@ -119,6 +115,10 @@ const ExpenseScreen: React.FC = () => {
       </View>
     );
   };
+
+  useEffect(() => {
+    requestLocationPermissions;
+  }, []);
 
   return (
     <ScreenWrapper noPaddings={false}>
