@@ -36,22 +36,6 @@ const HomeScreen: React.FC = () => {
   const todoList = useSelector<any, []>(({todo}) => todo?.todoList);
 
   const fetchInitialData = useCallback(async () => {
-    try {
-      const response = await getExpenses();
-    } catch (err) {
-      toast.show({
-        render: () => {
-          return (
-            <AlertToast
-              title="Something went wrong"
-              description={`${err}`}
-              variant="top-accent"
-              status="error"
-            />
-          );
-        },
-      });
-    }
     //@ts-ignore
     dispatch(fetchExpenseList());
     //@ts-ignore
