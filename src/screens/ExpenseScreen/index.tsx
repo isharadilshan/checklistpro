@@ -38,7 +38,7 @@ const ExpenseScreen: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    checkLocationPermission;
+    checkLocationPermission();
   }, [checkLocationPermission]);
 
   const filterExpenses = () => {
