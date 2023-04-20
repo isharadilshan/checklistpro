@@ -15,7 +15,7 @@ import {
   TODOS,
   TODO_SUMMARY,
 } from '../../routes/route-paths';
-import {fetchExpenseList, getExpenses} from '../../redux/actions/expense';
+import {fetchExpenseList} from '../../redux/actions/expense';
 import {fetchTodoList} from '../../redux/actions/todo';
 import AlertToast from '../../components/molecules/AlertToast';
 import createStyle from './styles';
